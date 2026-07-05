@@ -166,5 +166,30 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
+}
+
+@utility btn-gradient {
+  background: var(--gradient-cta);
+}
+
+@utility btn-hero {
+  background: var(--gradient-hero);
+}
+
+@utility bg-hero-gradient {
+  background: var(--gradient-hero);
+}
+
+@utility bg-soft-gradient {
+  background: var(--gradient-soft);
+}
+
+@utility text-gradient {
+  background: var(--gradient-hero);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
