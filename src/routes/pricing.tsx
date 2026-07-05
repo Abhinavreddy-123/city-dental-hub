@@ -31,7 +31,9 @@ function Pricing() {
 
       <Section className="!pt-6">
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-          {PRICING_PLANS.map((plan) => (
+          {PRICING_PLANS.map((plan) => {
+            const popular = "popular" in plan && plan.popular;
+            return (
             <Card key={plan.name} className={"relative border-border/60 " + (plan.popular ? "ring-2 ring-primary shadow-[var(--shadow-lg)]" : "")}>
               {plan.popular && (
                 <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow" style={{ background: "var(--gradient-cta)" }}>
@@ -54,7 +56,10 @@ function Pricing() {
                 </Button>
               </CardContent>
             </Card>
-          ))}
+            );
+          }).map((el) => el)}
+          {/* wrap to satisfy TS narrowing */}
+          {null && <span>{/* unreachable */}</span>}
         </div>
       </Section>
 
