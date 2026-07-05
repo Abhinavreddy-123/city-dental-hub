@@ -34,8 +34,8 @@ function Pricing() {
           {PRICING_PLANS.map((plan) => {
             const popular = "popular" in plan && plan.popular;
             return (
-            <Card key={plan.name} className={"relative border-border/60 " + (plan.popular ? "ring-2 ring-primary shadow-[var(--shadow-lg)]" : "")}>
-              {plan.popular && (
+            <Card key={plan.name} className={"relative border-border/60 " + (popular ? "ring-2 ring-primary shadow-[var(--shadow-lg)]" : "")}>
+              {popular && (
                 <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow" style={{ background: "var(--gradient-cta)" }}>
                   <Sparkles className="mr-1 inline h-3 w-3" /> Most popular
                 </span>
@@ -51,15 +51,13 @@ function Pricing() {
                     </li>
                   ))}
                 </ul>
-                <Button asChild variant={plan.popular ? "hero" : "outline"} className="mt-6 w-full">
+                <Button asChild variant={popular ? "hero" : "outline"} className="mt-6 w-full">
                   <Link to="/book">Get started</Link>
                 </Button>
               </CardContent>
             </Card>
             );
-          }).map((el) => el)}
-          {/* wrap to satisfy TS narrowing */}
-          {null && <span>{/* unreachable */}</span>}
+          })}
         </div>
       </Section>
 
