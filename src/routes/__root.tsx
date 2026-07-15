@@ -91,7 +91,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "City Dental Clinic in Hanamkonda, Warangal offers root canal, cosmetic dentistry, implants and pediatric care. Open Mon–Sat 9AM–8PM. Call +91 98491 87844." },
       { name: "author", content: "City Dental Clinic" },
       { property: "og:title", content: "City Dental Clinic — Hanamkonda, Warangal" },
-      { property: "og:description", content: "Healthy Smiles, Happy Lives. Trusted dentistry since 2010." },
+      { property: "og:description", content: "Healthy Smiles, Happy Lives. Trusted dentistry since 2000." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
