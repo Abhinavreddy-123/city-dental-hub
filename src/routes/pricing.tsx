@@ -77,20 +77,12 @@ function Pricing() {
       </Section>
 
       <Section>
-        <div className="grid gap-6 md:grid-cols-2">
-          <Card className="border-border/60"><CardContent className="p-8">
-            <h3 className="font-semibold">Payment methods</h3>
-            <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-              <li>Cash</li><li>Credit / Debit cards</li><li>UPI & digital payments</li><li>Net banking</li><li>EMI options available</li>
-            </ul>
-          </CardContent></Card>
-          <Card className="border-border/60"><CardContent className="p-8">
-            <h3 className="font-semibold">Insurance</h3>
-            <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-              <li>Major health insurance providers</li><li>Corporate dental plans</li><li>Government schemes</li><li>Cashless facility available</li><li>Direct billing support</li>
-            </ul>
-          </CardContent></Card>
-        </div>
+        <Card className="border-border/60"><CardContent className="p-8">
+          <h3 className="font-semibold">Payment methods</h3>
+          <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+            <li>Cash</li><li>Credit / Debit cards</li><li>UPI & digital payments</li><li>Net banking</li><li>EMI options available</li>
+          </ul>
+        </CardContent></Card>
       </Section>
     </SiteLayout>
   );
