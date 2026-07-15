@@ -54,7 +54,7 @@ function Services() {
       <Section className="bg-surface-tint">
         <div className="grid gap-6 md:grid-cols-3">
           {[
-            { k: "15+ yrs", v: "Combined experience" },
+            { k: "26+ yrs", v: "Combined experience" },
             { k: "5000+", v: "Patients treated" },
             { k: "100%", v: "Sterile & safe" },
           ].map((s) => (

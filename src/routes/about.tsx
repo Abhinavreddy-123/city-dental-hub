@@ -8,10 +8,10 @@ import { DOCTORS, SITE } from "@/lib/site";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About City Dental Clinic — Since 2010 · Hanamkonda" },
-      { name: "description", content: "Our story, our values, and the specialist team behind 15+ years of trusted dental care in Hanamkonda, Warangal." },
+      { title: "About City Dental Clinic — Since 2000 · Hanamkonda" },
+      { name: "description", content: "Our story, our values, and the specialist team behind 26+ years of trusted dental care in Hanamkonda, Warangal." },
       { property: "og:title", content: "About City Dental Clinic" },
-      { property: "og:description", content: "Since 2010 · 5000+ happy patients · Family-friendly dentistry in Hanamkonda." },
+      { property: "og:description", content: "Since 2000 · 5000+ happy patients · Family-friendly dentistry in Hanamkonda." },
     ],
   }),
   component: About,
@@ -31,7 +31,7 @@ function About() {
         <div className="mx-auto max-w-3xl text-center">
           <span className="rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-primary shadow-sm">Our story</span>
           <h1 className="mt-3 text-4xl font-extrabold sm:text-5xl">
-            15+ years of <span className="text-gradient">gentle, honest dentistry</span>
+            26+ years of <span className="text-gradient">gentle, honest dentistry</span>
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">
             City Dental Clinic opened in {SITE.established} with a simple promise — treat every patient like family. Today, more than 5,000 patients from Hanamkonda, Warangal and beyond trust us with their smiles.

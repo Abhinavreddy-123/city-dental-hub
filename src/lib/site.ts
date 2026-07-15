@@ -2,7 +2,7 @@ export const SITE = {
   name: "City Dental Clinic",
   legalName: "City Multispeciality Dental Hospital",
   tagline: "Healthy Smiles, Happy Lives",
-  established: 2010,
+  established: 2000,
   address:
     "Shop No #1, KR & MS Reddy Complex, Near Vijay Talkies Road, Hanamkonda Chowrastha, Hanamkonda, Warangal-506001, Telangana, India",
   city: "Hanamkonda, Warangal",
@@ -34,7 +34,7 @@ export const DOCTORS = [
     qualifications: "MDS (Endodontics), BDS · Certified Cosmetic Dental Surgeon",
     focus: "Root Canals · Cosmetic Dentistry · Crowns & Veneers",
     bio:
-      "With 15+ years of clinical experience, Dr. Manoranjan is known for his gentle chair-side manner and precise, single-visit root canal technique.",
+      "With 26+ years of clinical experience, Dr. Manoranjan is known for his gentle chair-side manner and precise, single-visit root canal technique.",
     specializations: [
       "Single Visit Root Canal Treatment",
       "Cosmetic Dentistry & Smile Makeovers",

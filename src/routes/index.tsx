@@ -21,7 +21,7 @@ export const Route = createFileRoute("/")({
 
 const HIGHLIGHTS = [
   { icon: ShieldCheck, title: "Safe & Sterile", desc: "Hospital-grade sterilisation on every instrument." },
-  { icon: Award, title: "Expert Doctors", desc: "15+ years of specialist experience." },
+  { icon: Award, title: "Expert Doctors", desc: "26+ years of specialist experience." },
   { icon: HeartHandshake, title: "Family Friendly", desc: "Warm, gentle care for every age." },
   { icon: Users, title: "Patient First", desc: "Transparent plans, honest advice, always." },
 ];
@@ -49,7 +49,7 @@ function Index() {
               <br /> Happy Lives.
             </h1>
             <p className="mt-5 max-w-xl text-lg text-muted-foreground">
-              City Dental Clinic in Hanamkonda has cared for 5,000+ happy patients since 2010 — with painless root canals, gentle pediatric care and beautiful cosmetic dentistry, all under one roof.
+              City Dental Clinic in Hanamkonda has cared for 5,000+ happy patients since 2000 — with painless root canals, gentle pediatric care and beautiful cosmetic dentistry, all under one roof.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button asChild variant="hero" size="xl">
@@ -62,7 +62,7 @@ function Index() {
             <dl className="mt-10 grid max-w-lg grid-cols-3 gap-4">
               {[
                 { k: "5000+", v: "Happy patients" },
-                { k: "15+ yrs", v: "Experience" },
+                { k: "26+ yrs", v: "Experience" },
                 { k: "4.9/5", v: "Patient rating" },
               ].map((s) => (
                 <div key={s.v} className="rounded-2xl border border-border/60 bg-white/70 p-4 text-center shadow-sm backdrop-blur">

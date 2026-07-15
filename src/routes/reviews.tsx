@@ -59,7 +59,7 @@ function Reviews() {
           {[
             { k: "5000+", v: "Happy patients" },
             { k: "4.9", v: "Avg rating" },
-            { k: "15+", v: "Years" },
+            { k: "26+", v: "Years" },
             { k: "98%", v: "Satisfaction" },
           ].map((s) => (
             <div key={s.v} className="rounded-2xl border border-border/60 bg-white/80 p-4 text-center shadow-sm backdrop-blur">
