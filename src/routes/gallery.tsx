@@ -2,6 +2,15 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { Section, SectionHeader } from "@/components/ui/section";
 
+import receptionImg from "@/assets/gallery/reception.jpg";
+import treatmentRoomImg from "@/assets/gallery/treatment-room.jpg";
+import sterilizationImg from "@/assets/gallery/sterilization.jpg";
+import xrayImg from "@/assets/gallery/xray.jpg";
+import pediatricImg from "@/assets/gallery/pediatric.jpg";
+import smileMakeoverImg from "@/assets/gallery/smile-makeover.jpg";
+import whiteningImg from "@/assets/gallery/whitening.jpg";
+import teamImg from "@/assets/gallery/team.jpg";
+
 export const Route = createFileRoute("/gallery")({
   head: () => ({
     meta: [
@@ -15,14 +24,14 @@ export const Route = createFileRoute("/gallery")({
 });
 
 const items = [
-  { title: "Reception", tag: "Clinic", grad: "from-sky-200 to-emerald-200" },
-  { title: "Treatment room 1", tag: "Clinic", grad: "from-emerald-200 to-sky-200" },
-  { title: "Sterilisation area", tag: "Safety", grad: "from-sky-100 to-emerald-100" },
-  { title: "Digital X-ray", tag: "Equipment", grad: "from-emerald-100 to-sky-200" },
-  { title: "Pediatric corner", tag: "Kids", grad: "from-sky-200 to-emerald-100" },
-  { title: "Smile makeover · Priya", tag: "Before / After", grad: "from-emerald-200 to-sky-100" },
-  { title: "Whitening · Rajesh", tag: "Before / After", grad: "from-sky-100 to-emerald-200" },
-  { title: "Team", tag: "People", grad: "from-emerald-100 to-sky-100" },
+  { title: "Reception", tag: "Clinic", image: receptionImg, alt: "Modern dental clinic reception area" },
+  { title: "Treatment room", tag: "Clinic", image: treatmentRoomImg, alt: "Dental treatment room with modern equipment" },
+  { title: "Sterilisation area", tag: "Safety", image: sterilizationImg, alt: "Sterile dental instrument processing area" },
+  { title: "Digital X-ray", tag: "Equipment", image: xrayImg, alt: "Digital dental X-ray and imaging equipment" },
+  { title: "Pediatric corner", tag: "Kids", image: pediatricImg, alt: "Child-friendly pediatric dental treatment area" },
+  { title: "Smile makeover", tag: "Before / After", image: smileMakeoverImg, alt: "Before and after smile makeover transformation" },
+  { title: "Teeth whitening", tag: "Cosmetic", image: whiteningImg, alt: "Professional teeth whitening treatment" },
+  { title: "Our team", tag: "People", image: teamImg, alt: "City Dental Clinic dental team" },
 ];
 
 function Gallery() {
@@ -38,11 +47,20 @@ function Gallery() {
       <Section>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {items.map((it) => (
-            <div key={it.title} className={`group relative aspect-square overflow-hidden rounded-2xl bg-gradient-to-br ${it.grad} shadow-md`}>
-              <div className="absolute inset-0 grid place-items-center text-center">
-                <span className="rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-primary shadow-sm">{it.tag}</span>
+            <div key={it.title} className="group relative aspect-square overflow-hidden rounded-2xl bg-muted shadow-md">
+              <img
+                src={it.image}
+                alt={it.alt}
+                loading="lazy"
+                width={1024}
+                height={1024}
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+              <div className="absolute left-4 top-4">
+                <span className="rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-primary shadow-sm">{it.tag}</span>
               </div>
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/40 to-transparent p-4 text-white opacity-0 transition-opacity group-hover:opacity-100">
+              <div className="absolute inset-x-0 bottom-0 p-4 text-white">
                 <p className="text-sm font-semibold">{it.title}</p>
               </div>
             </div>
