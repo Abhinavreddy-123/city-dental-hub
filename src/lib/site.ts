@@ -6,18 +6,18 @@ export const SITE = {
   address:
     "Shop No #1, KR & MS Reddy Complex, Near Vijay Talkies Road, Hanamkonda Chowrastha, Hanamkonda, Warangal-506001, Telangana, India",
   city: "Hanamkonda, Warangal",
-  callNow: "+919849567318",
-  callNowDisplay: "+91 98495 67318",
+  callNow: "+919030493936",
+  callNowDisplay: "+91 90304 93936",
   phones: [
-    { label: "Emergency / Call Now", value: "+919849567318", display: "+91 98495 67318" },
+    { label: "Emergency / Call Now", value: "+919030493936", display: "+91 90304 93936" },
     { label: "Reception", value: "+919030493936", display: "+91 90304 93936" },
-    { label: "Appointments", value: "+919849567318", display: "+91 98495 67318" },
+    { label: "Appointments", value: "+919030493936", display: "+91 90304 93936" },
   ],
   hours: [
     { day: "Monday – Saturday", value: "9:00 AM – 8:00 PM" },
     { day: "Sunday", value: "Closed" },
   ],
-  whatsapp: "919849567318",
+  whatsapp: "919030493936",
   mapEmbed:
     "https://www.google.com/maps?q=Hanamkonda+Chowrastha,+Hanamkonda,+Warangal&output=embed",
   socials: {
@@ -190,7 +190,7 @@ export const TIME_SLOTS = [
 export const FAQS = [
   {
     q: "What are your working hours?",
-    a: "We are open Monday to Saturday, 9:00 AM to 9:00 PM. The clinic is closed on Sundays. Emergency care is available 24/7 — call +91 98495 67318.",
+    a: "We are open Monday to Saturday, 9:00 AM to 9:00 PM. The clinic is closed on Sundays. Emergency care is available 24/7 — call +91 90304 93936.",
   },
   {
     q: "Do I need an appointment or can I walk in?",
