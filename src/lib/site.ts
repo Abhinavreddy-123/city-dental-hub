@@ -9,9 +9,9 @@ export const SITE = {
   callNow: "+919030493936",
   callNowDisplay: "+91 90304 93936",
   phones: [
-    { label: "Emergency / Call Now", value: "+919030493936", display: "+91 90304 93936" },
+    { label: "Emergency / Call Now", value: "+919849567318", display: "+91 98495 67318" },
     { label: "Reception", value: "+919030493936", display: "+91 90304 93936" },
-    { label: "Appointments", value: "+919030493936", display: "+91 90304 93936" },
+    { label: "Appointments", value: "+919849567318", display: "+91 98495 67318" },
   ],
   hours: [
     { day: "Monday – Saturday", value: "9:00 AM – 8:00 PM" },
