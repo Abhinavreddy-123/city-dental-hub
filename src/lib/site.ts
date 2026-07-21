@@ -10,7 +10,7 @@ export const SITE = {
   callNowDisplay: "+91 98495 67318",
   phones: [
     { label: "Emergency / Call Now", value: "+919849567318", display: "+91 98495 67318" },
-    { label: "Reception", value: "+919866139235", display: "+91 98661 39235" },
+    { label: "Reception", value: "+919030493936", display: "+91 90304 93936" },
     { label: "Appointments", value: "+919849567318", display: "+91 98495 67318" },
   ],
   hours: [
