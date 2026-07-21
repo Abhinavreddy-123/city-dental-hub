@@ -19,14 +19,7 @@ export function Footer() {
           <p className="mt-4 text-sm text-muted-foreground">
             {SITE.tagline}. Trusted family & specialist dental care in Hanamkonda since {SITE.established}.
           </p>
-          <div className="mt-4 flex gap-3">
-            <a href={SITE.socials.facebook} aria-label="Facebook" className="rounded-full border border-border p-2 text-muted-foreground hover:text-primary">
-              <Facebook className="h-4 w-4" />
-            </a>
-            <a href={SITE.socials.instagram} aria-label="Instagram" className="rounded-full border border-border p-2 text-muted-foreground hover:text-primary">
-              <Instagram className="h-4 w-4" />
-            </a>
-          </div>
+         
         </div>
 
         <div>
@@ -34,7 +27,6 @@ export function Footer() {
           <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
             <li><Link to="/about" className="hover:text-primary">About</Link></li>
             <li><Link to="/services" className="hover:text-primary">Services</Link></li>
-            <li><Link to="/pricing" className="hover:text-primary">Pricing</Link></li>
             <li><Link to="/reviews" className="hover:text-primary">Patient Reviews</Link></li>
             <li><Link to="/book" className="hover:text-primary">Book Appointment</Link></li>
           </ul>
@@ -45,7 +37,7 @@ export function Footer() {
           <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
             <li className="flex gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" /><span>{SITE.address}</span></li>
             <li className="flex gap-2"><Phone className="mt-0.5 h-4 w-4 shrink-0 text-primary" /><a href={`tel:${SITE.callNow}`} className="hover:text-primary">{SITE.callNowDisplay}</a></li>
-            <li className="flex gap-2"><Clock className="mt-0.5 h-4 w-4 shrink-0 text-primary" /><span>Mon–Sat · 9 AM – 8 PM<br/>Sunday · Closed</span></li>
+            <li className="flex gap-2"><Clock className="mt-0.5 h-4 w-4 shrink-0 text-primary" /><span>Mon–Sat · 9 AM – 9 PM<br/>Sunday · Closed</span></li>
           </ul>
         </div>
 
