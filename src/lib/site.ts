@@ -4,7 +4,7 @@ export const SITE = {
   tagline: "Healthy Smiles, Happy Lives",
   established: 2000,
   address:
-    "Shop No #1, KR & MS Reddy Complex, Near Vijay Talkies Road, Hanamkonda Chowrastha, Hanamkonda, Warangal-506001, Telangana, India",
+    "Shop No #1, KR & MS Reddy Complex, City Multispeciality Dental Hospital, Near Vijay Talkies Road, Hanamakonda Chowrastha, Hanamkonda, Warangal-506001, Telangana",
   city: "Hanamkonda, Warangal",
   callNow: "+919030493936",
   callNowDisplay: "+91 90304 93936",
@@ -19,11 +19,11 @@ export const SITE = {
   ],
   whatsapp: "919030493936",
   mapEmbed:
-    "https://www.google.com/maps?q=Hanamkonda+Chowrastha,+Hanamkonda,+Warangal&output=embed",
+    "https://www.google.com/maps?q=Shop+No+#1,+KR+&+MS+Reddy+Complex,+City+Multispeciality+Dental+Hospital,+Near+Vijay+Talkies+Road,+Hanamakonda+Chowrastha,+Hanamkonda,+Warangal-506001,+Telangana&output=embed",
   socials: {
     facebook: "https://facebook.com/",
     instagram: "https://instagram.com/",
-    google: "https://www.google.com/maps?q=Hanamkonda+Chowrastha,+Hanamkonda,+Warangal",
+    google: "https://www.google.com/maps?q=Shop+No+#1,+KR+&+MS+Reddy+Complex,+City+Multispeciality+Dental+Hospital,+Near+Vijay+Talkies+Road,+Hanamakonda+Chowrastha,+Hanamkonda,+Warangal-506001,+Telangana",
   },
 } as const;
 
