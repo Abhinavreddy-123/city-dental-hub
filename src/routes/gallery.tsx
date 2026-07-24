@@ -2,6 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { Section, SectionHeader } from "@/components/ui/section";
 
+import receptionImg from "@/assets/gallery/reception.jpeg";
+import treatmentRoomImg from "@/assets/gallery/Treatment room.jpeg";
+import sterilizationImg from "@/assets/gallery/Sterilization area.jpeg";
+import xrayImg from "@/assets/gallery/Digital X-ray.jpeg";
+
 export const Route = createFileRoute("/gallery")({
   head: () => ({
     meta: [
@@ -15,10 +20,10 @@ export const Route = createFileRoute("/gallery")({
 });
 
 const items = [
-  { title: "Reception", tag: "Clinic", alt: "Modern dental clinic reception area" },
-  { title: "Treatment room", tag: "Clinic", alt: "Dental treatment room with modern equipment" },
-  { title: "Sterilisation area", tag: "Safety", alt: "Sterile dental instrument processing area" },
-  { title: "Digital X-ray", tag: "Equipment", alt: "Digital dental X-ray and imaging equipment" },
+  { title: "Reception", tag: "Clinic", image: receptionImg, alt: "Modern dental clinic reception area" },
+  { title: "Treatment room", tag: "Clinic", image: treatmentRoomImg, alt: "Dental treatment room with modern equipment" },
+  { title: "Sterilisation area", tag: "Safety", image: sterilizationImg, alt: "Sterile dental instrument processing area" },
+  { title: "Digital X-ray", tag: "Equipment", image: xrayImg, alt: "Digital dental X-ray and imaging equipment" },
   { title: "Smile makeover", tag: "Before / After", alt: "Before and after smile makeover transformation" },
   { title: "Teeth whitening", tag: "Cosmetic", alt: "Professional teeth whitening treatment" },
   { title: "Our team", tag: "People", alt: "City Dental Clinic dental team" },
@@ -38,6 +43,16 @@ function Gallery() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {items.map((it) => (
             <div key={it.title} className="group relative aspect-square overflow-hidden rounded-2xl bg-muted shadow-md">
+              {it.image && (
+                <img
+                  src={it.image}
+                  alt={it.alt}
+                  loading="lazy"
+                  width={1024}
+                  height={1024}
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
               <div className="absolute left-4 top-4">
                 <span className="rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-primary shadow-sm">{it.tag}</span>
