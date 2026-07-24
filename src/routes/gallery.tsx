@@ -6,6 +6,8 @@ import receptionImg from "@/assets/gallery/reception.jpeg";
 import treatmentRoomImg from "@/assets/gallery/Treatment room.jpeg";
 import sterilizationImg from "@/assets/gallery/Sterilization area.jpeg";
 import xrayImg from "@/assets/gallery/Digital X-ray.jpeg";
+import smileMakeoverImg from "@/assets/gallery/smile makeover.jpg";
+import whiteningImg from "@/assets/gallery/teeth whitening.jpg";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
@@ -24,8 +26,8 @@ const items = [
   { title: "Treatment room", tag: "Clinic", image: treatmentRoomImg, alt: "Dental treatment room with modern equipment" },
   { title: "Sterilisation area", tag: "Safety", image: sterilizationImg, alt: "Sterile dental instrument processing area" },
   { title: "Digital X-ray", tag: "Equipment", image: xrayImg, alt: "Digital dental X-ray and imaging equipment" },
-  { title: "Smile makeover", tag: "Before / After", alt: "Before and after smile makeover transformation" },
-  { title: "Teeth whitening", tag: "Cosmetic", alt: "Professional teeth whitening treatment" },
+  { title: "Smile makeover", tag: "Before / After", image: smileMakeoverImg, alt: "Before and after smile makeover transformation" },
+  { title: "Teeth whitening", tag: "Cosmetic", image: whiteningImg, alt: "Professional teeth whitening treatment" },
   { title: "Our team", tag: "People", alt: "City Dental Clinic dental team" },
 ];
 
