@@ -19,7 +19,6 @@ const items = [
   { title: "Treatment room", tag: "Clinic", alt: "Dental treatment room with modern equipment" },
   { title: "Sterilisation area", tag: "Safety", alt: "Sterile dental instrument processing area" },
   { title: "Digital X-ray", tag: "Equipment", alt: "Digital dental X-ray and imaging equipment" },
-  { title: "Pediatric corner", tag: "Kids", alt: "Child-friendly pediatric dental treatment area" },
   { title: "Smile makeover", tag: "Before / After", alt: "Before and after smile makeover transformation" },
   { title: "Teeth whitening", tag: "Cosmetic", alt: "Professional teeth whitening treatment" },
   { title: "Our team", tag: "People", alt: "City Dental Clinic dental team" },

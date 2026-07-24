@@ -23,7 +23,7 @@ export const SITE = {
   socials: {
     facebook: "https://facebook.com/",
     instagram: "https://instagram.com/",
-    google: "https://www.google.com/maps?q=Shop+No+1,+KR+and+MS+Reddy+Complex,+City+Multispeciality+Dental+Hospital,+Near+Vijay+Talkies+Road,+Hanamakonda+Chowrastha,+Hanamkonda,+Warangal-506001,+Telangana",
+    google: "https://www.google.com/maps?q=Shop+No+#1,+KR+&+MS+Reddy+Complex,+City+Multispeciality+Dental+Hospital,+Near+Vijay+Talkies+Road,+Hanamakonda+Chowrastha,+Hanamkonda,+Warangal-506001,+Telangana",
   },
 } as const;
 
