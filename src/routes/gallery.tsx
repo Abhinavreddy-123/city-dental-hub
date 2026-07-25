@@ -56,7 +56,7 @@ function Gallery() {
                     loading="lazy"
                     width={1024}
                     height={512}
-                    className="h-1/2 w-full object-cover object-[50%_40%] transition-transform duration-500 group-hover:scale-105"
+                    className="h-1/2 w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                   />
                   <img
                     src={it.afterImage}
