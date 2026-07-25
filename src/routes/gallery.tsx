@@ -44,7 +44,9 @@ function Gallery() {
       <Section>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {items.map((it) => (
-            <div key={it.title} className="group relative aspect-square overflow-hidden rounded-2xl bg-muted shadow-md">
+            <div key={it.title} className={`group relative overflow-hidden rounded-2xl bg-muted shadow-md ${
+              it.title === "Smile makeover" ? "aspect-video" : "aspect-square"
+            }`}>
               {it.image && (
                 <img
                   src={it.image}
@@ -52,9 +54,7 @@ function Gallery() {
                   loading="lazy"
                   width={1024}
                   height={1024}
-                  className={`absolute inset-0 h-full w-full transition-transform duration-500 group-hover:scale-105 ${
-                    it.title === "Smile makeover" ? "object-contain" : "object-cover"
-                  }`}
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
