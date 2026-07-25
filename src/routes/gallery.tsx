@@ -58,6 +58,7 @@ function Gallery() {
                     height={512}
                     className="h-1/2 w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                   />
+                  <div className="h-1 w-full bg-white" />
                   <img
                     src={it.afterImage}
                     alt="After smile makeover"
