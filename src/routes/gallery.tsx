@@ -44,7 +44,9 @@ function Gallery() {
       <Section>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {items.map((it) => (
-            <div key={it.title} className="group relative aspect-square overflow-hidden rounded-2xl bg-muted shadow-md">
+            <div key={it.title} className={`group relative aspect-square overflow-hidden rounded-2xl shadow-md ${
+              it.title === "Smile makeover" ? "bg-gray-200" : "bg-muted"
+            }`}>
               {it.image && (
                 <img
                   src={it.image}
