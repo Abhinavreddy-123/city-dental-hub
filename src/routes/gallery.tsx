@@ -6,7 +6,8 @@ import receptionImg from "@/assets/gallery/reception.jpeg";
 import treatmentRoomImg from "@/assets/gallery/Treatment room.jpeg";
 import sterilizationImg from "@/assets/gallery/Sterilization area.jpeg";
 import xrayImg from "@/assets/gallery/Digital X-ray.jpeg";
-import smileMakeoverImg from "@/assets/gallery/smile makeover.jpg";
+import smileMakeoverBeforeImg from "@/assets/gallery/smile_before.jpeg";
+import smileMakeoverAfterImg from "@/assets/gallery/smile_after.jpeg";
 import whiteningImg from "@/assets/gallery/teeth whitening.jpg";
 
 export const Route = createFileRoute("/gallery")({
@@ -26,7 +27,7 @@ const items = [
   { title: "Treatment room", tag: "Clinic", image: treatmentRoomImg, alt: "Dental treatment room with modern equipment" },
   { title: "Sterilisation area", tag: "Safety", image: sterilizationImg, alt: "Sterile dental instrument processing area" },
   { title: "Digital X-ray", tag: "Equipment", image: xrayImg, alt: "Digital dental X-ray and imaging equipment" },
-  { title: "Smile makeover", tag: "Before / After", image: smileMakeoverImg, alt: "Before and after smile makeover transformation" },
+  { title: "Smile makeover", tag: "Before / After", beforeImage: smileMakeoverBeforeImg, afterImage: smileMakeoverAfterImg, alt: "Before and after smile makeover transformation" },
   { title: "Teeth whitening", tag: "Cosmetic", image: whiteningImg, alt: "Professional teeth whitening treatment" },
   { title: "Our team", tag: "People", alt: "City Dental Clinic dental team" },
 ];
@@ -45,20 +46,37 @@ function Gallery() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {items.map((it) => (
             <div key={it.title} className={`group relative aspect-square overflow-hidden rounded-2xl shadow-md ${
-              it.title === "Smile makeover" ? "bg-gray-200" : "bg-muted"
+              it.title === "Smile makeover" ? "bg-muted" : "bg-muted"
             }`}>
-              {it.image && (
+              {it.title === "Smile makeover" ? (
+                <div className="flex h-full flex-col">
+                  <img
+                    src={it.beforeImage}
+                    alt="Before smile makeover"
+                    loading="lazy"
+                    width={1024}
+                    height={512}
+                    className="h-1/2 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <img
+                    src={it.afterImage}
+                    alt="After smile makeover"
+                    loading="lazy"
+                    width={1024}
+                    height={512}
+                    className="h-1/2 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+              ) : it.image ? (
                 <img
                   src={it.image}
                   alt={it.alt}
                   loading="lazy"
                   width={1024}
                   height={1024}
-                  className={`absolute inset-0 h-full w-full transition-transform duration-500 group-hover:scale-105 ${
-                    it.title === "Smile makeover" ? "object-contain" : "object-cover"
-                  }`}
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-              )}
+              ) : null}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
               <div className="absolute left-4 top-4">
                 <span className="rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-primary shadow-sm">{it.tag}</span>
