@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { Section, SectionHeader } from "@/components/ui/section";
 
-import receptionImg from "@/assets/gallery/reception.jpeg";
+import receptionImg from "@/assets/gallery/reception updated.jpeg";
 import treatmentRoomImg from "@/assets/gallery/Treatment room.jpeg";
 import sterilizationImg from "@/assets/gallery/Sterilization area.jpeg";
 import xrayImg from "@/assets/gallery/Digital X-ray.jpeg";
