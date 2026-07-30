@@ -64,6 +64,8 @@ const items = [
 
   { title: "Teeth whitening", tag: "Cosmetic", image: whiteningImg, alt: "Professional teeth whitening treatment" },
 
+  { title: "Doctor-patient interaction", tag: "Care", image: doctorPatientImg, alt: "Doctor consulting with patient" },
+
   { title: "Our team", tag: "People", image: teamImg, alt: "City Dental Clinic dental team" },
 
 ];
