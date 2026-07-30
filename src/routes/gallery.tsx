@@ -5,7 +5,7 @@ import { Section, SectionHeader } from "@/components/ui/section";
 import receptionImg from "@/assets/gallery/reception updated.jpeg";
 import treatmentRoomImg from "@/assets/gallery/Treatment room.jpeg";
 import sterilizationImg from "@/assets/gallery/Sterilization area.jpeg";
-import xrayImg from "@/assets/gallery/Digital X-ray.jpeg";
+import xrayImg from "@/assets/gallery/x-ray equipment.jpeg";
 import smileMakeoverBeforeImg from "@/assets/gallery/smile_before.jpeg";
 import smileMakeoverAfterImg from "@/assets/gallery/smile_after.jpeg";
 import whiteningImg from "@/assets/gallery/teeth whitening.jpg";
