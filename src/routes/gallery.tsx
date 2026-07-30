@@ -9,6 +9,7 @@ import xrayImg from "@/assets/gallery/Digital X-ray.jpeg";
 import smileMakeoverBeforeImg from "@/assets/gallery/smile_before.jpeg";
 import smileMakeoverAfterImg from "@/assets/gallery/smile_after.jpeg";
 import whiteningImg from "@/assets/gallery/teeth whitening.jpg";
+import teamImg from "@/assets/gallery/team photo.jpeg";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
@@ -29,7 +30,7 @@ const items = [
   { title: "Digital X-ray", tag: "Equipment", image: xrayImg, alt: "Digital dental X-ray and imaging equipment" },
   { title: "Smile makeover", tag: "Before / After", beforeImage: smileMakeoverBeforeImg, afterImage: smileMakeoverAfterImg, alt: "Before and after smile makeover transformation" },
   { title: "Teeth whitening", tag: "Cosmetic", image: whiteningImg, alt: "Professional teeth whitening treatment" },
-  { title: "Our team", tag: "People", alt: "City Dental Clinic dental team" },
+  { title: "Our team", tag: "People", image: teamImg, alt: "City Dental Clinic dental team" },
 ];
 
 function Gallery() {
