@@ -194,7 +194,7 @@ function Book() {
               <CardContent className="p-6 text-sm">
                 <h3 className="font-semibold">Clinic hours</h3>
                 <ul className="mt-3 space-y-1 text-muted-foreground">
-                  <li>Mon – Sat · 9 AM – 8 PM</li>
+                  <li>Mon – Sat · 11 AM – 2 PM, 5:30 PM – 9 PM</li>
                   <li>Sunday · Closed</li>
                   <li className="text-emerald-strong">Emergency · 24/7</li>
                 </ul>

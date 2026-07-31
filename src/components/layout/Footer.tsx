@@ -37,7 +37,7 @@ export function Footer() {
           <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
             <li className="flex gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" /><span>{SITE.address}</span></li>
             <li className="flex gap-2"><Phone className="mt-0.5 h-4 w-4 shrink-0 text-primary" /><a href={`tel:${SITE.callNow}`} className="hover:text-primary">{SITE.callNowDisplay}</a></li>
-            <li className="flex gap-2"><Clock className="mt-0.5 h-4 w-4 shrink-0 text-primary" /><span>Mon–Sat · 9 AM – 9 PM<br/>Sunday · Closed</span></li>
+            <li className="flex gap-2"><Clock className="mt-0.5 h-4 w-4 shrink-0 text-primary" /><span>Mon–Sat · 11 AM – 2 PM, 5:30 PM – 9 PM<br/>Sunday · Closed</span></li>
           </ul>
         </div>
 

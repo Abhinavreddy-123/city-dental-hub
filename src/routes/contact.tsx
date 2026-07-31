@@ -67,7 +67,7 @@ function Contact() {
             <Clock className="h-6 w-6 text-primary" />
             <h3 className="mt-3 font-semibold">Hours</h3>
             <ul className="mt-1 space-y-1 text-sm text-muted-foreground">
-              <li>Mon – Sat · 9 AM – 8 PM</li>
+              <li>Mon – Sat · 11 AM – 2 PM, 5:30 PM – 9 PM</li>
               <li>Sunday · <span className="font-semibold text-destructive">Closed</span></li>
               <li className="text-emerald-strong">Emergency · 24/7</li>
             </ul>
