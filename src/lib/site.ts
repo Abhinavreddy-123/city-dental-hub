@@ -14,7 +14,7 @@ export const SITE = {
     { label: "Appointments", value: "+919030493936", display: "+91 90304 93936" },
   ],
   hours: [
-    { day: "Monday – Saturday", value: "9:00 AM – 8:00 PM" },
+    { day: "Monday – Saturday", value: "11:00 AM – 2:00 PM, 5:30 PM – 9:00 PM" },
     { day: "Sunday", value: "Closed" },
   ],
   whatsapp: "919030493936",
@@ -180,17 +180,14 @@ export const SERVICES = [
 ] as const;
 
 export const TIME_SLOTS = [
-  "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM",
-  "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM",
-  "02:00 PM", "02:30 PM", "03:00 PM", "03:30 PM",
-  "04:00 PM", "04:30 PM", "05:00 PM", "05:30 PM",
-  "06:00 PM", "06:30 PM", "07:00 PM", "07:30 PM",
+  "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM", "01:00 PM", "01:30 PM",
+  "05:30 PM", "06:00 PM", "06:30 PM", "07:00 PM", "07:30 PM", "08:00 PM", "08:30 PM",
 ];
 
 export const FAQS = [
   {
     q: "What are your working hours?",
-    a: "We are open Monday to Saturday, 9:00 AM to 9:00 PM. The clinic is closed on Sundays. Emergency care is available 24/7 — call +91 90304 93936.",
+    a: "We are open Monday to Saturday, 11:00 AM to 2:00 PM and 5:30 PM to 9:00 PM. The clinic is closed on Sundays. Emergency care is available 24/7 — call +91 90304 93936.",
   },
   {
     q: "Do I need an appointment or can I walk in?",
