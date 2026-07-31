@@ -42,7 +42,7 @@ function Index() {
           <div>
             <span className="inline-flex items-center gap-2 rounded-full border border-emerald/30 bg-white/70 px-3 py-1 text-xs font-semibold text-emerald-strong shadow-sm">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald" />
-              Now booking · Mon–Sat 9AM–8PM · Sunday Closed
+              Now booking · Mon–Sat 11AM–2PM, 5:30PM–9PM · Sunday Closed
             </span>
             <h1 className="mt-5 text-4xl font-extrabold tracking-tight sm:text-6xl">
               <span className="text-gradient">Healthy Smiles,</span>
