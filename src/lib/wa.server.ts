@@ -3,8 +3,8 @@ import type { Database } from "@/integrations/supabase/types";
 import { TIME_SLOTS, DOCTORS, SERVICES } from "@/lib/site";
 
 export const WA_TIME_SLOTS = TIME_SLOTS;
-export const WA_DOCTORS = DOCTORS.map((d) => d.name);
-export const WA_SERVICES = SERVICES.map((s) => s.title);
+export const WA_DOCTORS: string[] = DOCTORS.map((d) => d.name);
+export const WA_SERVICES: string[] = SERVICES.map((s) => s.title);
 
 export function admin() {
   const url = process.env["SUPABASE_URL"]!;
