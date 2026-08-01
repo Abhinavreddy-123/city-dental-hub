@@ -20,10 +20,12 @@ export type Database = {
           appointment_time: string
           created_at: string
           doctor: string
+          google_event_id: string | null
           id: string
           name: string
           notes: string | null
           phone: string
+          phone_e164: string | null
           service: string
           status: string
         }
@@ -32,10 +34,12 @@ export type Database = {
           appointment_time: string
           created_at?: string
           doctor: string
+          google_event_id?: string | null
           id?: string
           name: string
           notes?: string | null
           phone: string
+          phone_e164?: string | null
           service: string
           status?: string
         }
@@ -44,10 +48,12 @@ export type Database = {
           appointment_time?: string
           created_at?: string
           doctor?: string
+          google_event_id?: string | null
           id?: string
           name?: string
           notes?: string | null
           phone?: string
+          phone_e164?: string | null
           service?: string
           status?: string
         }
@@ -82,6 +88,44 @@ export type Database = {
           subject?: string
         }
         Relationships: []
+      }
+      notification_log: {
+        Row: {
+          appointment_id: string
+          channel: string
+          created_at: string
+          id: string
+          kind: string
+          provider_message_id: string | null
+          sent_at: string
+        }
+        Insert: {
+          appointment_id: string
+          channel?: string
+          created_at?: string
+          id?: string
+          kind: string
+          provider_message_id?: string | null
+          sent_at?: string
+        }
+        Update: {
+          appointment_id?: string
+          channel?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          provider_message_id?: string | null
+          sent_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_log_appointment_id_fkey"
+            columns: ["appointment_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       reviews: {
         Row: {
@@ -149,6 +193,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      normalize_phone_e164: { Args: { _phone: string }; Returns: string }
     }
     Enums: {
       app_role: "admin" | "user"
