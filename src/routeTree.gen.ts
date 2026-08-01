@@ -24,6 +24,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ApiPublicWaAvailabilityRouteImport } from './routes/api/public/wa/availability'
+import { Route as ApiPublicWaBookRouteImport } from './routes/api/public/wa/book'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -99,6 +100,11 @@ const ApiPublicWaAvailabilityRoute = ApiPublicWaAvailabilityRouteImport.update({
   path: '/api/public/wa/availability',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicWaBookRoute = ApiPublicWaBookRouteImport.update({
+  id: '/api/public/wa/book',
+  path: '/api/public/wa/book',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -115,6 +121,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/api/public/wa/availability': typeof ApiPublicWaAvailabilityRoute
+  '/api/public/wa/book': typeof ApiPublicWaBookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -131,6 +138,7 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/api/public/wa/availability': typeof ApiPublicWaAvailabilityRoute
+  '/api/public/wa/book': typeof ApiPublicWaBookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -149,6 +157,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/api/public/wa/availability': typeof ApiPublicWaAvailabilityRoute
+  '/api/public/wa/book': typeof ApiPublicWaBookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -167,6 +176,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin'
     | '/api/public/wa/availability'
+    | '/api/public/wa/book'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -183,6 +193,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin'
     | '/api/public/wa/availability'
+    | '/api/public/wa/book'
   id:
     | '__root__'
     | '/'
@@ -200,6 +211,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/_authenticated/admin'
     | '/api/public/wa/availability'
+    | '/api/public/wa/book'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -217,6 +229,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
   ApiPublicWaAvailabilityRoute: typeof ApiPublicWaAvailabilityRoute
+  ApiPublicWaBookRoute: typeof ApiPublicWaBookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -326,6 +339,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicWaAvailabilityRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/wa/book': {
+      id: '/api/public/wa/book'
+      path: '/api/public/wa/book'
+      fullPath: '/api/public/wa/book'
+      preLoaderRoute: typeof ApiPublicWaBookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -355,6 +375,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
   ApiPublicWaAvailabilityRoute: ApiPublicWaAvailabilityRoute,
+  ApiPublicWaBookRoute: ApiPublicWaBookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

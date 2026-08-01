@@ -108,9 +108,6 @@ export const Route = createFileRoute("/api/public/wa/book")({
           .single();
 
         if (error) {
-          if (error.code === "23505" || error.code === "23P01" || error.code === "23505") {
-            return jsonError("slot_taken", "That slot was just taken.", 409);
-          }
           if (error.code === "23505" || error.message.includes("uq_appointments_active_slot")) {
             return jsonError("slot_taken", "That slot was just taken.", 409);
           }
