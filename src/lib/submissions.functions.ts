@@ -21,10 +21,52 @@ const appointmentSchema = z.object({
 export const submitAppointment = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => appointmentSchema.parse(data))
   .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const SLOT_TAKEN =
+      "Sorry, this slot was just booked by another patient — please choose a different time or doctor";
+
+    if (data.doctor !== "Any Available") {
+      const { data: clash, error: clashError } = await supabaseAdmin
+        .from("appointments")
+        .select("id")
+        .eq("doctor", data.doctor)
+        .eq("appointment_date", data.appointment_date)
+        .eq("appointment_time", data.appointment_time)
+        .neq("status", "cancelled")
+        .maybeSingle();
+      if (clashError) throw new Error(clashError.message);
+      if (clash) throw new Error(SLOT_TAKEN);
+    }
+
     const supabase = anonClient();
     const { error } = await supabase.from("appointments").insert(data);
-    if (error) throw new Error(error.message);
+    if (error) {
+      if (error.code === "23505" || error.message.includes("uq_appointments_active_slot")) {
+        throw new Error(SLOT_TAKEN);
+      }
+      throw new Error(error.message);
+    }
     return { ok: true as const };
+  });
+
+const bookedSlotsSchema = z.object({
+  doctor: z.string().trim().min(2).max(100),
+  appointment_date: z.string().min(8).max(20),
+});
+
+export const getBookedSlots = createServerFn({ method: "POST" })
+  .inputValidator((data: unknown) => bookedSlotsSchema.parse(data))
+  .handler(async ({ data }) => {
+    if (data.doctor === "Any Available") return { times: [] as string[] };
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: rows, error } = await supabaseAdmin
+      .from("appointments")
+      .select("appointment_time")
+      .eq("doctor", data.doctor)
+      .eq("appointment_date", data.appointment_date)
+      .neq("status", "cancelled");
+    if (error) throw new Error(error.message);
+    return { times: (rows ?? []).map((r) => r.appointment_time) };
   });
 
 const contactSchema = z.object({

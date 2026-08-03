@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { CalendarCheck, Phone, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
-import { submitAppointment } from "@/lib/submissions.functions";
+import { submitAppointment, getBookedSlots } from "@/lib/submissions.functions";
 import { SERVICES, DOCTORS, TIME_SLOTS, SITE } from "@/lib/site";
 
 export const Route = createFileRoute("/book")({
@@ -35,6 +35,7 @@ function todayStr() {
 
 function Book() {
   const submit = useServerFn(submitAppointment);
+  const fetchBooked = useServerFn(getBookedSlots);
   const [done, setDone] = useState<null | { name: string; date: string; time: string; service: string; doctor: string }>(null);
   const [form, setForm] = useState({
     name: "",
@@ -45,6 +46,13 @@ function Book() {
     appointment_time: "",
     notes: "",
   });
+
+  const bookedQuery = useQuery({
+    queryKey: ["booked-slots", form.doctor, form.appointment_date],
+    enabled: Boolean(form.appointment_date) && form.doctor !== "Any Available",
+    queryFn: () => fetchBooked({ data: { doctor: form.doctor, appointment_date: form.appointment_date } }),
+  });
+  const bookedTimes: string[] = bookedQuery.data?.times ?? [];
 
   const mut = useMutation({
     mutationFn: async () => {
@@ -64,7 +72,14 @@ function Book() {
       });
       toast.success("Appointment request received!");
     },
-    onError: (e: any) => toast.error(e?.message ?? "Something went wrong"),
+    onError: (e: any) => {
+      const msg: string = e?.message ?? "Something went wrong";
+      toast.error(msg);
+      if (msg.includes("just booked")) {
+        void bookedQuery.refetch();
+        setForm((f) => ({ ...f, appointment_time: "" }));
+      }
+    },
   });
 
   if (done) {
@@ -155,11 +170,25 @@ function Book() {
                 <div>
                   <Label>Time slot</Label>
                   <Select value={form.appointment_time} onValueChange={(v) => setForm({ ...form, appointment_time: v })}>
-                    <SelectTrigger><SelectValue placeholder="Choose a time" /></SelectTrigger>
+                    <SelectTrigger>
+                      <SelectValue placeholder={bookedQuery.isFetching ? "Checking availability…" : "Choose a time"} />
+                    </SelectTrigger>
                     <SelectContent>
-                      {TIME_SLOTS.map((t) => <SelectItem key={t} value={t}>{t}</SelectItem>)}
+                      {TIME_SLOTS.map((t) => {
+                        const taken = bookedTimes.includes(t);
+                        return (
+                          <SelectItem key={t} value={t} disabled={taken}>
+                            {t}{taken ? " · Booked" : ""}
+                          </SelectItem>
+                        );
+                      })}
                     </SelectContent>
                   </Select>
+                  {form.doctor !== "Any Available" && form.appointment_date && bookedTimes.length > 0 && (
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Greyed-out times are already booked for {form.doctor} on this date.
+                    </p>
+                  )}
                 </div>
                 <div className="sm:col-span-2">
                   <Label htmlFor="notes">Anything we should know? (optional)</Label>
