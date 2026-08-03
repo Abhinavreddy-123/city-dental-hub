@@ -72,13 +72,15 @@ function Book() {
       });
       toast.success("Appointment request received!");
     },
-    onError: (e: any) => toast.error(e?.message ?? "Something went wrong"),
+    onError: (e: any) => {
+      const msg: string = e?.message ?? "Something went wrong";
+      toast.error(msg);
+      if (msg.includes("just booked")) {
+        void bookedQuery.refetch();
+        setForm((f) => ({ ...f, appointment_time: "" }));
+      }
+    },
   });
-
-  const onSlotError = () => {
-    void bookedQuery.refetch();
-    setForm((f) => ({ ...f, appointment_time: "" }));
-  };
 
   if (done) {
     return (
