@@ -198,10 +198,6 @@ export const FAQS = [
     a: "Modern single-visit root canals are virtually painless. We use effective local anaesthesia and gentle techniques so most patients feel nothing more than mild pressure.",
   },
   {
-    q: "How much does teeth whitening cost?",
-    a: "In-clinic professional teeth whitening starts at ₹2,999. Your dentist will confirm the exact plan after a short consultation.",
-  },
-  {
     q: "Is the clinic child-friendly?",
     a: "Absolutely. Dr. Srujana specialises in pediatric dentistry and our team is trained to keep children calm, safe and smiling.",
   },
