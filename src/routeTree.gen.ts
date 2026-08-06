@@ -25,6 +25,7 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ApiPublicWaAvailabilityRouteImport } from './routes/api/public/wa/availability'
 import { Route as ApiPublicWaBookRouteImport } from './routes/api/public/wa/book'
+import { Route as ApiPublicWaBookAppointmentRouteImport } from './routes/api/public/wa/book-appointment'
 import { Route as ApiPublicWaCheckAvailabilityRouteImport } from './routes/api/public/wa/check-availability'
 import { Route as ApiPublicWaLookupRouteImport } from './routes/api/public/wa/lookup'
 import { Route as ApiPublicWaRemindersRouteImport } from './routes/api/public/wa/reminders'
@@ -108,6 +109,12 @@ const ApiPublicWaBookRoute = ApiPublicWaBookRouteImport.update({
   path: '/api/public/wa/book',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicWaBookAppointmentRoute =
+  ApiPublicWaBookAppointmentRouteImport.update({
+    id: '/api/public/wa/book-appointment',
+    path: '/api/public/wa/book-appointment',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicWaCheckAvailabilityRoute =
   ApiPublicWaCheckAvailabilityRouteImport.update({
     id: '/api/public/wa/check-availability',
@@ -141,6 +148,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRoute
   '/api/public/wa/availability': typeof ApiPublicWaAvailabilityRoute
   '/api/public/wa/book': typeof ApiPublicWaBookRoute
+  '/api/public/wa/book-appointment': typeof ApiPublicWaBookAppointmentRoute
   '/api/public/wa/check-availability': typeof ApiPublicWaCheckAvailabilityRoute
   '/api/public/wa/lookup': typeof ApiPublicWaLookupRoute
   '/api/public/wa/reminders': typeof ApiPublicWaRemindersRoute
@@ -161,6 +169,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AuthenticatedAdminRoute
   '/api/public/wa/availability': typeof ApiPublicWaAvailabilityRoute
   '/api/public/wa/book': typeof ApiPublicWaBookRoute
+  '/api/public/wa/book-appointment': typeof ApiPublicWaBookAppointmentRoute
   '/api/public/wa/check-availability': typeof ApiPublicWaCheckAvailabilityRoute
   '/api/public/wa/lookup': typeof ApiPublicWaLookupRoute
   '/api/public/wa/reminders': typeof ApiPublicWaRemindersRoute
@@ -183,6 +192,7 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/api/public/wa/availability': typeof ApiPublicWaAvailabilityRoute
   '/api/public/wa/book': typeof ApiPublicWaBookRoute
+  '/api/public/wa/book-appointment': typeof ApiPublicWaBookAppointmentRoute
   '/api/public/wa/check-availability': typeof ApiPublicWaCheckAvailabilityRoute
   '/api/public/wa/lookup': typeof ApiPublicWaLookupRoute
   '/api/public/wa/reminders': typeof ApiPublicWaRemindersRoute
@@ -205,6 +215,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/api/public/wa/availability'
     | '/api/public/wa/book'
+    | '/api/public/wa/book-appointment'
     | '/api/public/wa/check-availability'
     | '/api/public/wa/lookup'
     | '/api/public/wa/reminders'
@@ -225,6 +236,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/api/public/wa/availability'
     | '/api/public/wa/book'
+    | '/api/public/wa/book-appointment'
     | '/api/public/wa/check-availability'
     | '/api/public/wa/lookup'
     | '/api/public/wa/reminders'
@@ -246,6 +258,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/api/public/wa/availability'
     | '/api/public/wa/book'
+    | '/api/public/wa/book-appointment'
     | '/api/public/wa/check-availability'
     | '/api/public/wa/lookup'
     | '/api/public/wa/reminders'
@@ -267,6 +280,7 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   ApiPublicWaAvailabilityRoute: typeof ApiPublicWaAvailabilityRoute
   ApiPublicWaBookRoute: typeof ApiPublicWaBookRoute
+  ApiPublicWaBookAppointmentRoute: typeof ApiPublicWaBookAppointmentRoute
   ApiPublicWaCheckAvailabilityRoute: typeof ApiPublicWaCheckAvailabilityRoute
   ApiPublicWaLookupRoute: typeof ApiPublicWaLookupRoute
   ApiPublicWaRemindersRoute: typeof ApiPublicWaRemindersRoute
@@ -386,6 +400,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicWaBookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/wa/book-appointment': {
+      id: '/api/public/wa/book-appointment'
+      path: '/api/public/wa/book-appointment'
+      fullPath: '/api/public/wa/book-appointment'
+      preLoaderRoute: typeof ApiPublicWaBookAppointmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/wa/check-availability': {
       id: '/api/public/wa/check-availability'
       path: '/api/public/wa/check-availability'
@@ -437,6 +458,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   ApiPublicWaAvailabilityRoute: ApiPublicWaAvailabilityRoute,
   ApiPublicWaBookRoute: ApiPublicWaBookRoute,
+  ApiPublicWaBookAppointmentRoute: ApiPublicWaBookAppointmentRoute,
   ApiPublicWaCheckAvailabilityRoute: ApiPublicWaCheckAvailabilityRoute,
   ApiPublicWaLookupRoute: ApiPublicWaLookupRoute,
   ApiPublicWaRemindersRoute: ApiPublicWaRemindersRoute,
@@ -444,13 +466,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
