@@ -29,6 +29,7 @@ import { Route as ApiPublicWaBookAppointmentRouteImport } from './routes/api/pub
 import { Route as ApiPublicWaCheckAvailabilityRouteImport } from './routes/api/public/wa/check-availability'
 import { Route as ApiPublicWaLookupRouteImport } from './routes/api/public/wa/lookup'
 import { Route as ApiPublicWaRemindersRouteImport } from './routes/api/public/wa/reminders'
+import { Route as ApiPublicWaSessionRouteImport } from './routes/api/public/wa/session'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -131,6 +132,11 @@ const ApiPublicWaRemindersRoute = ApiPublicWaRemindersRouteImport.update({
   path: '/api/public/wa/reminders',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicWaSessionRoute = ApiPublicWaSessionRouteImport.update({
+  id: '/api/public/wa/session',
+  path: '/api/public/wa/session',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -152,6 +158,7 @@ export interface FileRoutesByFullPath {
   '/api/public/wa/check-availability': typeof ApiPublicWaCheckAvailabilityRoute
   '/api/public/wa/lookup': typeof ApiPublicWaLookupRoute
   '/api/public/wa/reminders': typeof ApiPublicWaRemindersRoute
+  '/api/public/wa/session': typeof ApiPublicWaSessionRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -173,6 +180,7 @@ export interface FileRoutesByTo {
   '/api/public/wa/check-availability': typeof ApiPublicWaCheckAvailabilityRoute
   '/api/public/wa/lookup': typeof ApiPublicWaLookupRoute
   '/api/public/wa/reminders': typeof ApiPublicWaRemindersRoute
+  '/api/public/wa/session': typeof ApiPublicWaSessionRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -196,6 +204,7 @@ export interface FileRoutesById {
   '/api/public/wa/check-availability': typeof ApiPublicWaCheckAvailabilityRoute
   '/api/public/wa/lookup': typeof ApiPublicWaLookupRoute
   '/api/public/wa/reminders': typeof ApiPublicWaRemindersRoute
+  '/api/public/wa/session': typeof ApiPublicWaSessionRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -219,6 +228,7 @@ export interface FileRouteTypes {
     | '/api/public/wa/check-availability'
     | '/api/public/wa/lookup'
     | '/api/public/wa/reminders'
+    | '/api/public/wa/session'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -240,6 +250,7 @@ export interface FileRouteTypes {
     | '/api/public/wa/check-availability'
     | '/api/public/wa/lookup'
     | '/api/public/wa/reminders'
+    | '/api/public/wa/session'
   id:
     | '__root__'
     | '/'
@@ -262,6 +273,7 @@ export interface FileRouteTypes {
     | '/api/public/wa/check-availability'
     | '/api/public/wa/lookup'
     | '/api/public/wa/reminders'
+    | '/api/public/wa/session'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -284,6 +296,7 @@ export interface RootRouteChildren {
   ApiPublicWaCheckAvailabilityRoute: typeof ApiPublicWaCheckAvailabilityRoute
   ApiPublicWaLookupRoute: typeof ApiPublicWaLookupRoute
   ApiPublicWaRemindersRoute: typeof ApiPublicWaRemindersRoute
+  ApiPublicWaSessionRoute: typeof ApiPublicWaSessionRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -428,6 +441,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicWaRemindersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/wa/session': {
+      id: '/api/public/wa/session'
+      path: '/api/public/wa/session'
+      fullPath: '/api/public/wa/session'
+      preLoaderRoute: typeof ApiPublicWaSessionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -462,6 +482,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicWaCheckAvailabilityRoute: ApiPublicWaCheckAvailabilityRoute,
   ApiPublicWaLookupRoute: ApiPublicWaLookupRoute,
   ApiPublicWaRemindersRoute: ApiPublicWaRemindersRoute,
+  ApiPublicWaSessionRoute: ApiPublicWaSessionRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
