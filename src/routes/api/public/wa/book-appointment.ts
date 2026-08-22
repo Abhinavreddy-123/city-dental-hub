@@ -102,9 +102,10 @@ export const Route = createFileRoute("/api/public/wa/book-appointment")({
             appointment_time: input.time_slot,
             notes: input.notes ?? null,
             google_event_id: input.google_event_id ?? null,
+            email: input.email ?? null,
           })
           .select(
-            "id, name, phone, phone_e164, service, doctor, appointment_date, appointment_time, notes, status, google_event_id, created_at",
+            "id, name, phone, phone_e164, service, doctor, appointment_date, appointment_time, notes, status, google_event_id, email, created_at",
           )
           .single();
 
