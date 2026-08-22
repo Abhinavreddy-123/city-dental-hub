@@ -20,6 +20,7 @@ export type Database = {
           appointment_time: string
           created_at: string
           doctor: string
+          email: string | null
           google_event_id: string | null
           id: string
           name: string
@@ -34,6 +35,7 @@ export type Database = {
           appointment_time: string
           created_at?: string
           doctor: string
+          email?: string | null
           google_event_id?: string | null
           id?: string
           name: string
@@ -48,6 +50,7 @@ export type Database = {
           appointment_time?: string
           created_at?: string
           doctor?: string
+          email?: string | null
           google_event_id?: string | null
           id?: string
           name?: string
