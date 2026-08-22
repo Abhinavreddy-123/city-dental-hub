@@ -1,0 +1,1 @@
+ALTER TABLE public.appointments ADD COLUMN email text; GRANT SELECT, INSERT, UPDATE ON public.appointments TO authenticated; GRANT ALL ON public.appointments TO service_role; GRANT INSERT ON public.appointments TO anon;
