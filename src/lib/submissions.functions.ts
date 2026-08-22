@@ -103,13 +103,22 @@ export const submitReview = createServerFn({ method: "POST" })
   });
 
 export const getApprovedReviews = createServerFn({ method: "GET" }).handler(async () => {
-  const supabase = anonClient();
-  const { data, error } = await supabase
-    .from("reviews")
-    .select("id, name, location, rating, treatment, message, created_at")
-    .eq("approved", true)
-    .order("created_at", { ascending: false })
-    .limit(60);
-  if (error) throw new Error(error.message);
-  return data ?? [];
+  try {
+    const supabase = anonClient();
+    const { data, error } = await supabase
+      .from("reviews")
+      .select("id, name, location, rating, treatment, message, created_at")
+      .eq("approved", true)
+      .order("created_at", { ascending: false })
+      .limit(60);
+    if (error) {
+      console.error("getApprovedReviews failed:", error.message);
+      return [];
+    }
+    return data ?? [];
+  } catch (err) {
+    // Transient backend/network failure (e.g. upstream 521) — degrade gracefully
+    console.error("getApprovedReviews threw:", err);
+    return [];
+  }
 });
