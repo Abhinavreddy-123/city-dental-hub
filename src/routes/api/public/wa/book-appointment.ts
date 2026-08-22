@@ -11,6 +11,14 @@ import {
   WA_TIME_SLOTS,
 } from "@/lib/wa.server";
 
+const emailSchema = z
+  .string()
+  .trim()
+  .max(254)
+  .email()
+  .optional()
+  .nullable();
+
 const schema = z.object({
   name: z.string().trim().min(2).max(100),
   phone_number: z.string().trim().min(7).max(20),
@@ -20,6 +28,7 @@ const schema = z.object({
   time_slot: z.string().trim().min(4).max(10),
   notes: z.string().trim().max(1000).optional().nullable(),
   google_event_id: z.string().trim().max(200).optional().nullable(),
+  email: emailSchema,
 });
 
 function timingSafeEqual(a: string, b: string): boolean {
