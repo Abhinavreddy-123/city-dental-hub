@@ -147,7 +147,7 @@ function Book() {
                     <SelectTrigger><SelectValue placeholder="Select a service" /></SelectTrigger>
                     <SelectContent>
                       {SERVICES.map((s) => <SelectItem key={s.slug} value={s.title}>{s.title}</SelectItem>)}
-                      <SelectItem value="Consultation">General Consultation</SelectItem>
+                      <SelectItem value="Not Sure / General Consultation">Not Sure / General Consultation</SelectItem>
                       <SelectItem value="Emergency">Emergency Care</SelectItem>
                     </SelectContent>
                   </Select>
