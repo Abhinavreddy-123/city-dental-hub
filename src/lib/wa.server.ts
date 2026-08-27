@@ -39,15 +39,18 @@ function timingSafeEqual(a: string, b: string): boolean {
   return diff === 0;
 }
 
-/** Verifies the x-n8n-secret header. Returns null when authorized. */
+/** Verifies the x-api-key (N8N_API_KEY) or x-n8n-secret (N8N_SHARED_SECRET) header. */
 export function requireSharedSecret(request: Request): Response | null {
-  const expected = process.env["N8N_SHARED_SECRET"];
-  if (!expected) return jsonError("server_misconfigured", "Shared secret is not configured.", 500);
-  const provided = request.headers.get("x-n8n-secret") ?? "";
-  if (!provided || !timingSafeEqual(provided, expected)) {
-    return jsonError("unauthorized", "Missing or invalid x-n8n-secret header.", 401);
+  const apiKey = process.env["N8N_API_KEY"];
+  const shared = process.env["N8N_SHARED_SECRET"];
+  if (!apiKey && !shared) {
+    return jsonError("server_misconfigured", "No API credential is configured.", 500);
   }
-  return null;
+  const providedKey = request.headers.get("x-api-key") ?? "";
+  if (apiKey && providedKey && timingSafeEqual(providedKey, apiKey)) return null;
+  const providedSecret = request.headers.get("x-n8n-secret") ?? "";
+  if (shared && providedSecret && timingSafeEqual(providedSecret, shared)) return null;
+  return jsonError("unauthorized", "Missing or invalid x-api-key header.", 401);
 }
 
 export function normalizePhone(raw: string): string | null {
