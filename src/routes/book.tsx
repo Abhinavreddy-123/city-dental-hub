@@ -146,8 +146,8 @@ function Book() {
                   <Select value={form.service} onValueChange={(v) => setForm({ ...form, service: v })}>
                     <SelectTrigger><SelectValue placeholder="Select a service" /></SelectTrigger>
                     <SelectContent>
-                      {SERVICES.map((s) => <SelectItem key={s.slug} value={s.title}>{s.title}</SelectItem>)}
                       <SelectItem value="Not Sure / General Consultation">Not Sure / General Consultation</SelectItem>
+                      {SERVICES.map((s) => <SelectItem key={s.slug} value={s.title}>{s.title}</SelectItem>)}
                       <SelectItem value="Emergency">Emergency Care</SelectItem>
                     </SelectContent>
                   </Select>
