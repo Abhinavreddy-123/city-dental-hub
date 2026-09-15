@@ -63,7 +63,8 @@ export const Route = createFileRoute("/api/public/wa/reschedule")({
           )
           .eq("phone_e164", phone_e164)
           .gte("appointment_date", today)
-          .in("status", ["pending", "confirmed"]);
+          .neq("status", "cancelled");
+
 
         if (input.appointmentId) {
           query = query.eq("id", input.appointmentId);
