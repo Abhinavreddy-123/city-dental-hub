@@ -11,13 +11,11 @@ import {
   WA_TIME_SLOTS,
 } from "@/lib/wa.server";
 
-const emailSchema = z
-  .string()
-  .trim()
-  .max(254)
-  .email()
-  .optional()
-  .nullable();
+const emailSchema = z.preprocess(
+  (val) => (val === "" ? null : val),
+  z.string().trim().max(254).email().optional().nullable(),
+);
+
 
 const schema = z.object({
   name: z.string().trim().min(2).max(100),
