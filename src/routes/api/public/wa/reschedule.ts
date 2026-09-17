@@ -15,7 +15,14 @@ const rescheduleSchema = z.object({
   phone: z.string().trim().min(7).max(20),
   newDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   newTime: z.string().trim().min(4).max(10),
-  appointmentId: z.string().uuid().optional(),
+  appointmentId: z.preprocess(
+    (val) => {
+      if (val === undefined || val === null || val === "") return undefined;
+      const parsed = z.string().uuid().safeParse(val);
+      return parsed.success ? parsed.data : undefined;
+    },
+    z.string().uuid().optional(),
+  ),
 });
 
 export const Route = createFileRoute("/api/public/wa/reschedule")({
