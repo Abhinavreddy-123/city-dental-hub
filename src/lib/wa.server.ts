@@ -69,6 +69,51 @@ export function isClosed(date: string): boolean {
   return Number.isNaN(d.getTime()) || d.getUTCDay() === 0;
 }
 
+function timeToMinutes(time: string): number {
+  const match = time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if (!match) return 0;
+  let hours = parseInt(match[1], 10);
+  const minutes = parseInt(match[2], 10);
+  const meridiem = match[3].toUpperCase();
+  if (meridiem === "PM" && hours !== 12) hours += 12;
+  if (meridiem === "AM" && hours === 12) hours = 0;
+  return hours * 60 + minutes;
+}
+
+/** Finds active appointments whose scheduled time has not passed in India time. */
+export async function findUpcomingAppointments(phoneE164: string, appointmentId?: string) {
+  const nowIST = new Date(Date.now() + 5.5 * 60 * 60 * 1000);
+  const today = nowIST.toISOString().slice(0, 10);
+  const nowMinutes = nowIST.getUTCHours() * 60 + nowIST.getUTCMinutes();
+
+  let query = admin()
+    .from("appointments")
+    .select(
+      "id, name, phone, phone_e164, service, doctor, appointment_date, appointment_time, notes, status, google_event_id, created_at",
+    )
+    .eq("phone_e164", phoneE164)
+    .gte("appointment_date", today)
+    .neq("status", "cancelled")
+    .neq("status", "completed");
+
+  if (appointmentId) query = query.eq("id", appointmentId);
+
+  const { data, error } = await query
+    .order("appointment_date", { ascending: true })
+    .order("appointment_time", { ascending: true })
+    .limit(50);
+
+  if (error) return { appointments: [], error };
+
+  const appointments = (data ?? []).filter((appointment) => {
+    if (appointment.appointment_date > today) return true;
+    if (appointment.appointment_date < today) return false;
+    return timeToMinutes(appointment.appointment_time) > nowMinutes;
+  });
+
+  return { appointments, error: null };
+}
+
 /** In-memory best-effort limiter per worker instance. */
 const hits = new Map<string, number[]>();
 export function rateLimit(key: string, limit: number, windowMs: number): boolean {
