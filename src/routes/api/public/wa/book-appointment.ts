@@ -112,7 +112,12 @@ export const Route = createFileRoute("/api/public/wa/book-appointment")({
           if (error.code === "23505" || error.message.includes("uq_appointments_active_slot")) {
             return Response.json({ ok: false, reason: "slot_taken" }, { status: 200 });
           }
-          return jsonError("db_error", error.message, 500);
+          console.error("Unexpected appointment booking insert error:", error.message);
+          return jsonError(
+            "db_error",
+            "Something went wrong while booking. Please try again or contact the clinic.",
+            500,
+          );
         }
 
         return jsonOk({ appointment: data }, 201);
