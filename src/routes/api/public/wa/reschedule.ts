@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 import {
   admin,
+  findUpcomingAppointments,
   isClosed,
   jsonError,
   jsonOk,
@@ -61,51 +62,14 @@ export const Route = createFileRoute("/api/public/wa/reschedule")({
 
         const supabase = admin();
 
-        function timeToMinutes(time: string): number {
-          const match = time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
-          if (!match) return 0;
-          let hours = parseInt(match[1], 10);
-          const minutes = parseInt(match[2], 10);
-          const meridiem = match[3].toUpperCase();
-          if (meridiem === "PM" && hours !== 12) hours += 12;
-          if (meridiem === "AM" && hours === 12) hours = 0;
-          return hours * 60 + minutes;
-        }
-
         // Look up the patient's upcoming active appointment(s).
-        const nowIST = new Date(Date.now() + 5.5 * 60 * 60 * 1000);
-        const today = nowIST.toISOString().slice(0, 10);
-        const nowMinutes = nowIST.getUTCHours() * 60 + nowIST.getUTCMinutes();
-
-        let query = supabase
-          .from("appointments")
-          .select(
-            "id, name, phone, phone_e164, service, doctor, appointment_date, appointment_time, notes, status, google_event_id, created_at",
-          )
-          .eq("phone_e164", phone_e164)
-          .gte("appointment_date", today)
-          .neq("status", "cancelled")
-          .neq("status", "completed");
-
-        if (input.appointmentId) {
-          query = query.eq("id", input.appointmentId);
-        }
-
-        const { data: rawAppointments, error: findError } = await query
-          .order("appointment_date", { ascending: true })
-          .order("appointment_time", { ascending: true })
-          .limit(50);
-
+        const { appointments, error: findError } = await findUpcomingAppointments(
+          phone_e164,
+          input.appointmentId,
+        );
         if (findError) return jsonError("db_error", findError.message, 500);
 
-        // Only allow rescheduling appointments that have not happened yet.
-        const appointments = (rawAppointments ?? []).filter((appt) => {
-          if (appt.appointment_date > today) return true;
-          if (appt.appointment_date < today) return false;
-          return timeToMinutes(appt.appointment_time) > nowMinutes;
-        });
-
-        if (!appointments || appointments.length === 0) {
+        if (appointments.length === 0) {
           return jsonError("not_found", "No upcoming appointment found for that phone number.", 404);
         }
 
