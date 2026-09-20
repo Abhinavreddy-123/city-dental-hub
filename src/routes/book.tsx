@@ -74,7 +74,7 @@ function Book() {
         date: form.appointment_date,
         time: form.appointment_time,
         service: form.service,
-        doctor: form.doctor,
+        doctor: result.doctor,
       });
       toast.success("Appointment request received!");
     },

@@ -25,30 +25,47 @@ export const submitAppointment = createServerFn({ method: "POST" })
     const SLOT_TAKEN =
       "Sorry, this slot was just booked by another patient — please choose a different time or doctor";
 
-    if (data.doctor !== "Any Available") {
-      const { data: clash, error: clashError } = await supabaseAdmin
-        .from("appointments")
-        .select("id")
-        .eq("doctor", data.doctor)
-        .eq("appointment_date", data.appointment_date)
-        .eq("appointment_time", data.appointment_time)
-        .neq("status", "cancelled")
-        .maybeSingle();
-      if (clashError) throw new Error(clashError.message);
-      if (clash) {
-        return { ok: false as const, reason: "slot_taken" as const, message: SLOT_TAKEN };
+    const insertForDoctor = async (doctor: string) => {
+      const supabase = anonClient();
+      return supabase.from("appointments").insert({ ...data, doctor });
+    };
+
+    if (data.doctor === "Any Available") {
+      const fallbackDoctors = ["Dr. Srujana Kota", "Dr. P. Manoranjan Reddy"] as const;
+
+      for (const doctor of fallbackDoctors) {
+        const { error } = await insertForDoctor(doctor);
+        if (!error) return { ok: true as const, doctor };
+        if (error.code === "23505" || error.message.includes("uq_appointments_active_slot")) {
+          continue;
+        }
+        throw new Error(error.message);
       }
+
+      return { ok: false as const, reason: "slot_taken" as const, message: SLOT_TAKEN };
     }
 
-    const supabase = anonClient();
-    const { error } = await supabase.from("appointments").insert(data);
+    const { data: clash, error: clashError } = await supabaseAdmin
+      .from("appointments")
+      .select("id")
+      .eq("doctor", data.doctor)
+      .eq("appointment_date", data.appointment_date)
+      .eq("appointment_time", data.appointment_time)
+      .neq("status", "cancelled")
+      .maybeSingle();
+    if (clashError) throw new Error(clashError.message);
+    if (clash) {
+      return { ok: false as const, reason: "slot_taken" as const, message: SLOT_TAKEN };
+    }
+
+    const { error } = await insertForDoctor(data.doctor);
     if (error) {
       if (error.code === "23505" || error.message.includes("uq_appointments_active_slot")) {
         return { ok: false as const, reason: "slot_taken" as const, message: SLOT_TAKEN };
       }
       throw new Error(error.message);
     }
-    return { ok: true as const };
+    return { ok: true as const, doctor: data.doctor };
   });
 
 const bookedSlotsSchema = z.object({
