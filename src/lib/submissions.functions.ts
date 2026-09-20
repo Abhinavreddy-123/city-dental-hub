@@ -35,14 +35,16 @@ export const submitAppointment = createServerFn({ method: "POST" })
         .neq("status", "cancelled")
         .maybeSingle();
       if (clashError) throw new Error(clashError.message);
-      if (clash) throw new Error(SLOT_TAKEN);
+      if (clash) {
+        return { ok: false as const, reason: "slot_taken" as const, message: SLOT_TAKEN };
+      }
     }
 
     const supabase = anonClient();
     const { error } = await supabase.from("appointments").insert(data);
     if (error) {
       if (error.code === "23505" || error.message.includes("uq_appointments_active_slot")) {
-        throw new Error(SLOT_TAKEN);
+        return { ok: false as const, reason: "slot_taken" as const, message: SLOT_TAKEN };
       }
       throw new Error(error.message);
     }

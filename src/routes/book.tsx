@@ -62,7 +62,13 @@ function Book() {
       }
       return submit({ data: { ...form, notes: form.notes || null } });
     },
-    onSuccess: () => {
+    onSuccess: (result) => {
+      if (!result.ok) {
+        toast.error(result.message);
+        void bookedQuery.refetch();
+        setForm((f) => ({ ...f, appointment_time: "" }));
+        return;
+      }
       setDone({
         name: form.name,
         date: form.appointment_date,
