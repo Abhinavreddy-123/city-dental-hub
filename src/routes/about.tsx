@@ -12,6 +12,8 @@ export const Route = createFileRoute("/about")({
       { name: "description", content: "Our story, our values, and the specialist team behind 26+ years of trusted dental care in Hanamkonda, Warangal." },
       { property: "og:title", content: "About City Dental Clinic" },
       { property: "og:description", content: "Since 2000 · 5000+ happy patients · Family-friendly dentistry in Hanamkonda." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: About,

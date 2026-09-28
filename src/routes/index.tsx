@@ -13,6 +13,16 @@ const reviewsQO = () =>
   queryOptions({ queryKey: ["approved-reviews"], queryFn: () => getApprovedReviews() });
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "City Dental Clinic · Hanamkonda" },
+      { name: "description", content: "Trusted family dental care in Hanamkonda since 2000. Book a visit with City Dental Clinic for gentle, comprehensive treatment." },
+      { property: "og:title", content: "City Dental Clinic · Hanamkonda" },
+      { property: "og:description", content: "Family dental care in Hanamkonda since 2000. Book your visit online." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   loader: ({ context }) => {
     context.queryClient.ensureQueryData(reviewsQO());
   },

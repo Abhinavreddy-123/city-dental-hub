@@ -24,6 +24,8 @@ export const Route = createFileRoute("/reviews")({
       { name: "description", content: "Read what our patients say about City Dental Clinic Hanamkonda. 4.9/5 rating from 5000+ happy families." },
       { property: "og:title", content: "Patient Reviews · City Dental Clinic" },
       { property: "og:description", content: "4.9/5 average rating from 5000+ patients." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   loader: ({ context }) => {

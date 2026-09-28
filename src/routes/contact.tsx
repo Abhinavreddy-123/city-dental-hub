@@ -21,6 +21,8 @@ export const Route = createFileRoute("/contact")({
       { name: "description", content: "Get in touch with City Dental Clinic in Hanamkonda. Address, phone numbers, working hours and directions." },
       { property: "og:title", content: "Contact City Dental Clinic" },
       { property: "og:description", content: "Reach us in Hanamkonda Chowrastha or call +91 98491 87844." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Contact,

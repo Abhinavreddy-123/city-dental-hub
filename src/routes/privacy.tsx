@@ -7,6 +7,10 @@ export const Route = createFileRoute("/privacy")({
     meta: [
       { title: "Privacy Policy · City Dental Clinic" },
       { name: "description", content: "How City Dental Clinic collects, uses and safeguards your personal and health information." },
+      { property: "og:title", content: "Privacy Policy · City Dental Clinic" },
+      { property: "og:description", content: "How City Dental Clinic collects, uses and safeguards your personal and health information." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Privacy,

@@ -115,7 +115,7 @@ export const Route = createFileRoute("/api/public/wa/reschedule")({
           })
           .eq("id", appointment.id)
           .select(
-            "id, name, phone, phone_e164, service, doctor, appointment_date, appointment_time, notes, status, google_event_id, created_at",
+            "id, name, phone, phone_e164, email, service, doctor, appointment_date, appointment_time, notes, status, google_event_id, created_at",
           )
           .single();
 
