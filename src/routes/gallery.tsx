@@ -40,6 +40,8 @@ export const Route = createFileRoute("/gallery")({
 
       { property: "og:description", content: "Inside our clinic and patient smile transformations." },
 
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
 
   }),

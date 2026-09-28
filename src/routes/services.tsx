@@ -13,6 +13,8 @@ export const Route = createFileRoute("/services")({
       { name: "description", content: "Complete dental services in Hanamkonda: general dentistry, cosmetic, root canal, implants, orthodontics, pediatric, whitening and preventive care." },
       { property: "og:title", content: "Our Dental Services · City Dental Clinic" },
       { property: "og:description", content: "Everything from a simple check-up to full-mouth rehabilitation, in one clinic." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Services,

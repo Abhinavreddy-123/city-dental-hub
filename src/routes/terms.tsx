@@ -7,6 +7,10 @@ export const Route = createFileRoute("/terms")({
     meta: [
       { title: "Terms of Service · City Dental Clinic" },
       { name: "description", content: "The terms that apply when you use City Dental Clinic's website and services." },
+      { property: "og:title", content: "Terms of Service · City Dental Clinic" },
+      { property: "og:description", content: "The terms that apply when you use City Dental Clinic's website and services." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Terms,

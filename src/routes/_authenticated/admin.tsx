@@ -30,6 +30,10 @@ export const Route = createFileRoute("/_authenticated/admin")({
     meta: [
       { title: "Admin Dashboard · City Dental Clinic" },
       { name: "robots", content: "noindex" },
+      { property: "og:title", content: "Admin Dashboard · City Dental Clinic" },
+      { property: "og:description", content: "Staff administration for appointments, messages and patient reviews." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Admin,

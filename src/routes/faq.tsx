@@ -11,6 +11,8 @@ export const Route = createFileRoute("/faq")({
       { name: "description", content: "Answers to common questions about services, pricing, insurance, appointments and Sunday closure at City Dental Clinic Hanamkonda." },
       { property: "og:title", content: "FAQ · City Dental Clinic" },
       { property: "og:description", content: "Everything you need to know before your visit." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Faq,

@@ -23,6 +23,8 @@ export const Route = createFileRoute("/book")({
       { name: "description", content: "Book your dental appointment online at City Dental Clinic Hanamkonda. Choose your service, doctor and time slot in under a minute." },
       { property: "og:title", content: "Book Appointment · City Dental Clinic" },
       { property: "og:description", content: "Online booking · Mon–Sat · 11AM–2PM, 5:30PM–9PM · Closed Sunday." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Book,
