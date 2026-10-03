@@ -71,7 +71,7 @@ export const Route = createFileRoute("/api/public/wa/cancel-appointment")({
         const appointment = appointments[0];
         const { data, error } = await admin()
           .from("appointments")
-          .update({ status: "cancelled" })
+          .update({ status: "cancelled", change_source: "patient" })
           .eq("id", appointment.id)
           .select("id, doctor, service, appointment_date, appointment_time, google_event_id, email, name")
           .single();

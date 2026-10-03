@@ -27,7 +27,7 @@ export const submitAppointment = createServerFn({ method: "POST" })
 
     const insertForDoctor = async (doctor: string) => {
       const supabase = anonClient();
-      return supabase.from("appointments").insert({ ...data, doctor });
+      return supabase.from("appointments").insert({ ...data, doctor, change_source: "patient" });
     };
 
     if (data.doctor === "Any Available") {

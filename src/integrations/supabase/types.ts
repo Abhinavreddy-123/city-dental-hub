@@ -23,6 +23,7 @@ export type Database = {
           doctor: string
           id: string
           name: string
+          source: string
           type: string
         }
         Insert: {
@@ -33,6 +34,7 @@ export type Database = {
           doctor: string
           id?: string
           name: string
+          source?: string
           type: string
         }
         Update: {
@@ -43,6 +45,7 @@ export type Database = {
           doctor?: string
           id?: string
           name?: string
+          source?: string
           type?: string
         }
         Relationships: [
@@ -59,6 +62,7 @@ export type Database = {
         Row: {
           appointment_date: string
           appointment_time: string
+          change_source: string
           created_at: string
           doctor: string
           email: string | null
@@ -74,6 +78,7 @@ export type Database = {
         Insert: {
           appointment_date: string
           appointment_time: string
+          change_source?: string
           created_at?: string
           doctor: string
           email?: string | null
@@ -89,6 +94,7 @@ export type Database = {
         Update: {
           appointment_date?: string
           appointment_time?: string
+          change_source?: string
           created_at?: string
           doctor?: string
           email?: string | null
