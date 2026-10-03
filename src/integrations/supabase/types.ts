@@ -14,6 +14,47 @@ export type Database = {
   }
   public: {
     Tables: {
+      appointment_digest_events: {
+        Row: {
+          appointment_date: string
+          appointment_id: string
+          appointment_time: string
+          changed_at: string
+          doctor: string
+          id: string
+          name: string
+          type: string
+        }
+        Insert: {
+          appointment_date: string
+          appointment_id: string
+          appointment_time: string
+          changed_at?: string
+          doctor: string
+          id?: string
+          name: string
+          type: string
+        }
+        Update: {
+          appointment_date?: string
+          appointment_id?: string
+          appointment_time?: string
+          changed_at?: string
+          doctor?: string
+          id?: string
+          name?: string
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "appointment_digest_events_appointment_id_fkey"
+            columns: ["appointment_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       appointments: {
         Row: {
           appointment_date: string
