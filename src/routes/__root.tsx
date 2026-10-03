@@ -7,7 +7,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, type ComponentType, type ReactNode } from "react";
 
 import "@fontsource/inter/400.css";
 import "@fontsource/inter/500.css";
@@ -106,7 +106,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
-  errorComponent: ErrorComponent as React.ComponentType<any>,
+  errorComponent: ErrorComponent as ComponentType<any>,
 });
 
 function RootShell({ children }: { children: ReactNode }) {
