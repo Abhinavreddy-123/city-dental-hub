@@ -93,6 +93,6 @@
     "vite": "^8.1.5"
   },
   "overrides": {
-    "@tanstack/router-core": "1.171.15"
+    "@tanstack/router-core": "1.170.41"
   }
 }
