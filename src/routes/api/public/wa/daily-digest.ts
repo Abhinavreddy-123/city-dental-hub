@@ -26,6 +26,7 @@ export const Route = createFileRoute("/api/public/wa/daily-digest")({
           const { data, error } = await supabase
             .from("appointment_digest_events")
             .select("type, name, doctor, appointment_date, appointment_time")
+            .eq("source", "patient")
             .gte("changed_at", since)
             .order("changed_at", { ascending: true })
             .order("id", { ascending: true })

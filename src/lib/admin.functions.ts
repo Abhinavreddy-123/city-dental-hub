@@ -56,7 +56,7 @@ export const updateAppointmentStatus = createServerFn({ method: "POST" })
     await ensureAdmin(context);
     const { error } = await context.supabase
       .from("appointments")
-      .update({ status: data.status })
+      .update({ status: data.status, change_source: "staff" })
       .eq("id", data.id);
     if (error) throw new Error(error.message);
     return { ok: true as const };

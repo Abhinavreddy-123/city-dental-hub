@@ -103,6 +103,7 @@ export const Route = createFileRoute("/api/public/wa/book")({
             appointment_time: input.time,
             notes: input.notes ?? null,
             google_event_id: input.google_event_id ?? null,
+            change_source: "patient",
           })
           .select("id, name, phone, phone_e164, service, doctor, appointment_date, appointment_time, notes, status, google_event_id, created_at")
           .single();
@@ -142,7 +143,7 @@ export const Route = createFileRoute("/api/public/wa/book")({
         const supabase = admin();
         const { data, error } = await supabase
           .from("appointments")
-          .update(updates)
+          .update({ ...updates, change_source: "patient" })
           .eq("id", appointment_id)
           .select("id, status, google_event_id")
           .maybeSingle();

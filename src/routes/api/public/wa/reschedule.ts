@@ -112,6 +112,7 @@ export const Route = createFileRoute("/api/public/wa/reschedule")({
           .update({
             appointment_date: input.newDate,
             appointment_time: input.newTime,
+            change_source: "patient",
           })
           .eq("id", appointment.id)
           .select(
