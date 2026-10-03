@@ -10,3 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Keep WhatsApp appointment selection in `findUpcomingAppointments`; cancellation and rescheduling must share identical active-future lookup rules.
+- Derive WhatsApp daily digests from database-triggered appointment event snapshots, not current row status or creation time alone, because reschedules and cancellations need accurate change times.
