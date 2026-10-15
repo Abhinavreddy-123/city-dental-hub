@@ -33,7 +33,7 @@ export function Header() {
             className="grid h-10 w-10 place-items-center rounded-xl text-white shadow-md"
             style={{ background: "var(--gradient-hero)" }}
           >
-            <Sparkles className="h-5 w-5" />
+            <ToothIcon className="h-5 w-5" />
           </span>
           <span className="flex flex-col leading-tight">
             <span className="text-base font-bold tracking-tight">{SITE.name}</span>
