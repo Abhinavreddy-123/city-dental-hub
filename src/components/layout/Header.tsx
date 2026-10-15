@@ -1,9 +1,17 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X, Phone, Sparkles } from "lucide-react";
+import { Menu, X, Phone } from "lucide-react";
 import { SITE } from "@/lib/site";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+
+function ToothIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+      <path d="M12 2.5c-1.9 0-2.6 1-4.4 1-1.5 0-3.1.9-3.1 3.2 0 2.9 1.3 4 1.6 6.3.3 2.3.8 8.5 2.9 8.5 2.1 0 1.2-6.5 3-6.5s.9 6.5 3 6.5c2.1 0 2.6-6.2 2.9-8.5.3-2.3 1.6-3.4 1.6-6.3 0-2.3-1.6-3.2-3.1-3.2-1.8 0-2.5-1-4.4-1z" />
+    </svg>
+  );
+}
 
 const NAV = [
   { to: "/", label: "Home" },
@@ -25,7 +33,7 @@ export function Header() {
             className="grid h-10 w-10 place-items-center rounded-xl text-white shadow-md"
             style={{ background: "var(--gradient-hero)" }}
           >
-            <Sparkles className="h-5 w-5" />
+            <ToothIcon className="h-5 w-5" />
           </span>
           <span className="flex flex-col leading-tight">
             <span className="text-base font-bold tracking-tight">{SITE.name}</span>
