@@ -106,10 +106,6 @@ function Privacy() {
                   {EMAIL}
                 </a>
               </li>
-              <li className="flex items-start gap-2 text-muted-foreground">
-                <MapPin className="mt-1 h-4 w-4 shrink-0 text-primary" />
-                <span>Open Mon–Sat, 11:00 AM – 2:00 PM and 5:30 PM – 9:00 PM. Closed Sundays.</span>
-              </li>
             </ul>
           </div>
 
