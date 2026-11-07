@@ -46,7 +46,28 @@ export const Route = createFileRoute("/api/public/wa/daily-digest")({
           if (!data || data.length < pageSize) break;
         }
 
-        return jsonOk({ updates });
+        const nowIST = new Date(Date.now() + 5.5 * 60 * 60 * 1000);
+        const today = nowIST.toISOString().slice(0, 10);
+        const { data: todaysRows, error: todaysError } = await supabase
+          .from("appointments")
+          .select("appointment_time, name, service, doctor")
+          .eq("appointment_date", today)
+          .in("status", ["pending", "confirmed"])
+          .order("appointment_time", { ascending: true });
+
+        if (todaysError) {
+          console.error("Daily digest today's appointments query failed:", todaysError);
+          return jsonError("db_error", "Could not load today's appointments.", 500);
+        }
+
+        const todaysAppointments = (todaysRows ?? []).map((row) => ({
+          time: row.appointment_time,
+          name: row.name,
+          service: row.service,
+          doctor: row.doctor,
+        }));
+
+        return jsonOk({ updates, todaysAppointments });
       },
     },
   },
