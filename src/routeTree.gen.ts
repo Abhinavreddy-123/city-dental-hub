@@ -31,7 +31,9 @@ import { Route as ApiPublicWaCheckAvailabilityRouteImport } from './routes/api/p
 import { Route as ApiPublicWaDailyDigestRouteImport } from './routes/api/public/wa/daily-digest'
 import { Route as ApiPublicWaLookupRouteImport } from './routes/api/public/wa/lookup'
 import { Route as ApiPublicWaLookupAppointmentRouteImport } from './routes/api/public/wa/lookup-appointment'
+import { Route as ApiPublicWaReminderResultRouteImport } from './routes/api/public/wa/reminder-result'
 import { Route as ApiPublicWaRemindersRouteImport } from './routes/api/public/wa/reminders'
+import { Route as ApiPublicWaRemindersDueRouteImport } from './routes/api/public/wa/reminders-due'
 import { Route as ApiPublicWaRescheduleRouteImport } from './routes/api/public/wa/reschedule'
 import { Route as ApiPublicWaSessionRouteImport } from './routes/api/public/wa/session'
 
@@ -148,9 +150,20 @@ const ApiPublicWaLookupAppointmentRoute =
     path: '/api/public/wa/lookup-appointment',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicWaReminderResultRoute =
+  ApiPublicWaReminderResultRouteImport.update({
+    id: '/api/public/wa/reminder-result',
+    path: '/api/public/wa/reminder-result',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicWaRemindersRoute = ApiPublicWaRemindersRouteImport.update({
   id: '/api/public/wa/reminders',
   path: '/api/public/wa/reminders',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicWaRemindersDueRoute = ApiPublicWaRemindersDueRouteImport.update({
+  id: '/api/public/wa/reminders-due',
+  path: '/api/public/wa/reminders-due',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicWaRescheduleRoute = ApiPublicWaRescheduleRouteImport.update({
@@ -186,7 +199,9 @@ export interface FileRoutesByFullPath {
   '/api/public/wa/daily-digest': typeof ApiPublicWaDailyDigestRoute
   '/api/public/wa/lookup': typeof ApiPublicWaLookupRoute
   '/api/public/wa/lookup-appointment': typeof ApiPublicWaLookupAppointmentRoute
+  '/api/public/wa/reminder-result': typeof ApiPublicWaReminderResultRoute
   '/api/public/wa/reminders': typeof ApiPublicWaRemindersRoute
+  '/api/public/wa/reminders-due': typeof ApiPublicWaRemindersDueRoute
   '/api/public/wa/reschedule': typeof ApiPublicWaRescheduleRoute
   '/api/public/wa/session': typeof ApiPublicWaSessionRoute
 }
@@ -212,7 +227,9 @@ export interface FileRoutesByTo {
   '/api/public/wa/daily-digest': typeof ApiPublicWaDailyDigestRoute
   '/api/public/wa/lookup': typeof ApiPublicWaLookupRoute
   '/api/public/wa/lookup-appointment': typeof ApiPublicWaLookupAppointmentRoute
+  '/api/public/wa/reminder-result': typeof ApiPublicWaReminderResultRoute
   '/api/public/wa/reminders': typeof ApiPublicWaRemindersRoute
+  '/api/public/wa/reminders-due': typeof ApiPublicWaRemindersDueRoute
   '/api/public/wa/reschedule': typeof ApiPublicWaRescheduleRoute
   '/api/public/wa/session': typeof ApiPublicWaSessionRoute
 }
@@ -240,7 +257,9 @@ export interface FileRoutesById {
   '/api/public/wa/daily-digest': typeof ApiPublicWaDailyDigestRoute
   '/api/public/wa/lookup': typeof ApiPublicWaLookupRoute
   '/api/public/wa/lookup-appointment': typeof ApiPublicWaLookupAppointmentRoute
+  '/api/public/wa/reminder-result': typeof ApiPublicWaReminderResultRoute
   '/api/public/wa/reminders': typeof ApiPublicWaRemindersRoute
+  '/api/public/wa/reminders-due': typeof ApiPublicWaRemindersDueRoute
   '/api/public/wa/reschedule': typeof ApiPublicWaRescheduleRoute
   '/api/public/wa/session': typeof ApiPublicWaSessionRoute
 }
@@ -268,7 +287,9 @@ export interface FileRouteTypes {
     | '/api/public/wa/daily-digest'
     | '/api/public/wa/lookup'
     | '/api/public/wa/lookup-appointment'
+    | '/api/public/wa/reminder-result'
     | '/api/public/wa/reminders'
+    | '/api/public/wa/reminders-due'
     | '/api/public/wa/reschedule'
     | '/api/public/wa/session'
   fileRoutesByTo: FileRoutesByTo
@@ -294,7 +315,9 @@ export interface FileRouteTypes {
     | '/api/public/wa/daily-digest'
     | '/api/public/wa/lookup'
     | '/api/public/wa/lookup-appointment'
+    | '/api/public/wa/reminder-result'
     | '/api/public/wa/reminders'
+    | '/api/public/wa/reminders-due'
     | '/api/public/wa/reschedule'
     | '/api/public/wa/session'
   id:
@@ -321,7 +344,9 @@ export interface FileRouteTypes {
     | '/api/public/wa/daily-digest'
     | '/api/public/wa/lookup'
     | '/api/public/wa/lookup-appointment'
+    | '/api/public/wa/reminder-result'
     | '/api/public/wa/reminders'
+    | '/api/public/wa/reminders-due'
     | '/api/public/wa/reschedule'
     | '/api/public/wa/session'
   fileRoutesById: FileRoutesById
@@ -348,7 +373,9 @@ export interface RootRouteChildren {
   ApiPublicWaDailyDigestRoute: typeof ApiPublicWaDailyDigestRoute
   ApiPublicWaLookupRoute: typeof ApiPublicWaLookupRoute
   ApiPublicWaLookupAppointmentRoute: typeof ApiPublicWaLookupAppointmentRoute
+  ApiPublicWaReminderResultRoute: typeof ApiPublicWaReminderResultRoute
   ApiPublicWaRemindersRoute: typeof ApiPublicWaRemindersRoute
+  ApiPublicWaRemindersDueRoute: typeof ApiPublicWaRemindersDueRoute
   ApiPublicWaRescheduleRoute: typeof ApiPublicWaRescheduleRoute
   ApiPublicWaSessionRoute: typeof ApiPublicWaSessionRoute
 }
@@ -509,11 +536,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicWaLookupAppointmentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/wa/reminder-result': {
+      id: '/api/public/wa/reminder-result'
+      path: '/api/public/wa/reminder-result'
+      fullPath: '/api/public/wa/reminder-result'
+      preLoaderRoute: typeof ApiPublicWaReminderResultRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/wa/reminders': {
       id: '/api/public/wa/reminders'
       path: '/api/public/wa/reminders'
       fullPath: '/api/public/wa/reminders'
       preLoaderRoute: typeof ApiPublicWaRemindersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/wa/reminders-due': {
+      id: '/api/public/wa/reminders-due'
+      path: '/api/public/wa/reminders-due'
+      fullPath: '/api/public/wa/reminders-due'
+      preLoaderRoute: typeof ApiPublicWaRemindersDueRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/wa/reschedule': {
@@ -566,7 +607,9 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicWaDailyDigestRoute: ApiPublicWaDailyDigestRoute,
   ApiPublicWaLookupRoute: ApiPublicWaLookupRoute,
   ApiPublicWaLookupAppointmentRoute: ApiPublicWaLookupAppointmentRoute,
+  ApiPublicWaReminderResultRoute: ApiPublicWaReminderResultRoute,
   ApiPublicWaRemindersRoute: ApiPublicWaRemindersRoute,
+  ApiPublicWaRemindersDueRoute: ApiPublicWaRemindersDueRoute,
   ApiPublicWaRescheduleRoute: ApiPublicWaRescheduleRoute,
   ApiPublicWaSessionRoute: ApiPublicWaSessionRoute,
 }

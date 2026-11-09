@@ -11,3 +11,4 @@
 
 - Keep WhatsApp appointment selection in `findUpcomingAppointments`; cancellation and rescheduling must share identical active-future lookup rules.
 - Derive WhatsApp daily digests from database-triggered patient-source appointment event snapshots, because staff actions are already known and change times must remain accurate.
+- Claim one-hour reminders through the service-role-only database RPC with UPDATE RETURNING and row locks; concurrent polls must not claim the same appointment. Reset reminder timestamps in the reschedule write.

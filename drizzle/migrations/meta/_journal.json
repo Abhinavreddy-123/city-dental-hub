@@ -15,6 +15,20 @@
       "when": 1791034864886,
       "tag": "0001_track_appointment_change_source",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794214954360,
+      "tag": "0002_add_one_hour_appointment_reminders",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1794215012102,
+      "tag": "0003_record_one_hour_reminder_result",
+      "breakpoints": true
     }
   ]
 }

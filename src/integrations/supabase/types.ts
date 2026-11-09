@@ -72,6 +72,8 @@ export type Database = {
           notes: string | null
           phone: string
           phone_e164: string | null
+          reminder_1h_claimed_at: string | null
+          reminder_1h_sent_at: string | null
           service: string
           status: string
         }
@@ -88,6 +90,8 @@ export type Database = {
           notes?: string | null
           phone: string
           phone_e164?: string | null
+          reminder_1h_claimed_at?: string | null
+          reminder_1h_sent_at?: string | null
           service: string
           status?: string
         }
@@ -104,6 +108,8 @@ export type Database = {
           notes?: string | null
           phone?: string
           phone_e164?: string | null
+          reminder_1h_claimed_at?: string | null
+          reminder_1h_sent_at?: string | null
           service?: string
           status?: string
         }
@@ -260,6 +266,28 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      appointment_is_due_for_1h_reminder: {
+        Args: {
+          p_claimed_at: string
+          p_created_at: string
+          p_date: string
+          p_now: string
+          p_sent_at: string
+          p_status: string
+          p_time: string
+        }
+        Returns: boolean
+      }
+      claim_due_1h_reminders: {
+        Args: never
+        Returns: {
+          appointment_time: string
+          doctor: string
+          id: string
+          name: string
+          phone_e164: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -269,6 +297,14 @@ export type Database = {
       }
       is_admin: { Args: never; Returns: boolean }
       normalize_phone_e164: { Args: { _phone: string }; Returns: string }
+      record_1h_reminder_result: {
+        Args: { p_id: string; p_sent: boolean }
+        Returns: {
+          id: string
+          reminder_1h_claimed_at: string
+          reminder_1h_sent_at: string
+        }[]
+      }
     }
     Enums: {
       app_role: "admin" | "user"
