@@ -29,6 +29,13 @@
       "when": 1794215012102,
       "tag": "0003_record_one_hour_reminder_result",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1795192468421,
+      "tag": "0004_skip_reminders_without_phone",
+      "breakpoints": true
     }
   ]
 }
