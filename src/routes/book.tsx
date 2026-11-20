@@ -6,6 +6,7 @@ import { CalendarCheck, Phone, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import { SiteLayout } from "@/components/layout/SiteLayout";
+import { WhatsAppIcon } from "@/components/layout/WhatsAppButton";
 import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -113,6 +114,14 @@ function Book() {
               <a href={`tel:${SITE.callNow}`} className="mt-1 inline-flex items-center gap-2 font-semibold text-primary">
                 <Phone className="h-4 w-4" /> {SITE.callNowDisplay}
               </a>
+              <div className="mt-5 border-t border-border/60 pt-4">
+                <p className="text-xs text-muted-foreground">Questions? Chat with us on WhatsApp</p>
+                <Button asChild variant="outline" size="sm" className="mt-2 border-[#25D366]/50 text-[#128C7E] hover:bg-[#25D366]/10">
+                  <a href={SITE.whatsappLink} target="_blank" rel="noopener noreferrer" aria-label="Chat with City Dental Clinic on WhatsApp">
+                    <WhatsAppIcon className="h-4 w-4 text-[#25D366]" /> Open WhatsApp
+                  </a>
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </Section>
@@ -208,6 +217,7 @@ function Book() {
                     variant="hero"
                     size="xl"
                     className="w-full"
+                    data-floating-hide
                     disabled={mut.isPending || !form.service || !form.appointment_date || !form.appointment_time}
                   >
                     <CalendarCheck className="h-4 w-4" />

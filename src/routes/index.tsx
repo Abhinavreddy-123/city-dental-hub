@@ -3,6 +3,7 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { ShieldCheck, Award, HeartHandshake, Users, Star, CheckCircle2, Phone, ArrowRight } from "lucide-react";
 import heroImg from "@/assets/hero.jpg";
 import { SiteLayout } from "@/components/layout/SiteLayout";
+import { WhatsAppIcon } from "@/components/layout/WhatsAppButton";
 import { Section, SectionHeader } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -62,11 +63,16 @@ function Index() {
               City Dental Clinic in Hanamkonda has cared for 5,000+ happy patients since 2000 — with painless root canals, gentle pediatric care and beautiful cosmetic dentistry, all under one roof.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Button asChild variant="hero" size="xl">
+              <Button asChild variant="hero" size="xl" data-floating-hide>
                 <Link to="/book">Book Appointment <ArrowRight className="h-4 w-4" /></Link>
               </Button>
               <Button asChild variant="outline" size="xl">
                 <a href={`tel:${SITE.callNow}`}><Phone className="h-4 w-4" /> {SITE.callNowDisplay}</a>
+              </Button>
+              <Button asChild variant="outline" size="xl" className="border-[#25D366]/50 text-[#128C7E] hover:bg-[#25D366]/10">
+                <a href={SITE.whatsappLink} target="_blank" rel="noopener noreferrer" aria-label="Book on WhatsApp">
+                  <WhatsAppIcon className="h-4 w-4 text-[#25D366]" /> Book on WhatsApp
+                </a>
               </Button>
             </div>
             <dl className="mt-10 grid max-w-lg grid-cols-3 gap-4">
@@ -203,11 +209,16 @@ function Index() {
           <h2 className="text-3xl font-extrabold sm:text-4xl">Ready for a healthier smile?</h2>
           <p className="mx-auto mt-3 max-w-xl text-white/90">Book your appointment online in under a minute — or call us for immediate assistance.</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Button asChild size="xl" className="bg-white text-primary hover:bg-white/90">
+            <Button asChild size="xl" className="bg-white text-primary hover:bg-white/90" data-floating-hide>
               <Link to="/book">Book Appointment</Link>
             </Button>
             <Button asChild variant="outline" size="xl" className="border-white/70 bg-transparent text-white hover:bg-white/10">
               <a href={`tel:${SITE.callNow}`}><Phone className="h-4 w-4" /> {SITE.callNowDisplay}</a>
+            </Button>
+            <Button asChild variant="outline" size="xl" className="border-white/70 bg-transparent text-white hover:bg-white/10">
+              <a href={SITE.whatsappLink} target="_blank" rel="noopener noreferrer" aria-label="Book on WhatsApp">
+                <WhatsAppIcon className="h-4 w-4 text-[#25D366]" /> Book on WhatsApp
+              </a>
             </Button>
           </div>
         </div>

@@ -5,6 +5,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { MapPin, Phone, Clock, Bus, Car, Bike } from "lucide-react";
 import { toast } from "sonner";
 import { SiteLayout } from "@/components/layout/SiteLayout";
+import { WhatsAppIcon } from "@/components/layout/WhatsAppButton";
 import { Section, SectionHeader } from "@/components/ui/section";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -99,11 +100,19 @@ function Contact() {
               <div className="sm:col-span-2"><Label>Subject</Label><Input required value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} /></div>
               <div className="sm:col-span-2"><Label>Message</Label><Textarea required minLength={5} rows={5} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} /></div>
               <div className="sm:col-span-2">
-                <Button type="submit" variant="hero" size="lg" className="w-full" disabled={mut.isPending}>
+                <Button type="submit" variant="hero" size="lg" className="w-full" disabled={mut.isPending} data-floating-hide>
                   {mut.isPending ? "Sending…" : "Send message"}
                 </Button>
               </div>
             </form>
+            <div className="mt-6 border-t border-border/60 pt-5">
+              <p className="text-sm text-muted-foreground">Prefer to chat? Message us directly.</p>
+              <Button asChild variant="outline" className="mt-3 border-[#25D366]/50 text-[#128C7E] hover:bg-[#25D366]/10">
+                <a href={SITE.whatsappLink} target="_blank" rel="noopener noreferrer" aria-label="Book on WhatsApp">
+                  <WhatsAppIcon className="h-4 w-4 text-[#25D366]" /> Book on WhatsApp
+                </a>
+              </Button>
+            </div>
           </CardContent></Card>
           <div>
             <SectionHeader eyebrow="Getting here" title="Directions" align="left" />

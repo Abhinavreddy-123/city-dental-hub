@@ -18,6 +18,9 @@ export const SITE = {
     { day: "Sunday", value: "Closed" },
   ],
   whatsapp: "919030493936",
+  whatsappNumber: "917207687844",
+  whatsappLink:
+    "https://wa.me/917207687844?text=Hi%2C%20I%20would%20like%20to%20book%20an%20appointment%20(from%20website)",
   mapEmbed:
     "https://www.google.com/maps?q=Shop+No+1,+KR+and+MS+Reddy+Complex,+City+Multispeciality+Dental+Hospital,+Near+Vijay+Talkies+Road,+Hanamakonda+Chowrastha,+Hanamkonda,+Warangal-506001,+Telangana&output=embed",
   socials: {
