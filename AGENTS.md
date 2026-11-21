@@ -13,3 +13,4 @@
 - Derive WhatsApp daily digests from database-triggered patient-source appointment event snapshots, because staff actions are already known and change times must remain accurate.
 - Claim one-hour reminders through the service-role-only database RPC with UPDATE RETURNING and row locks; concurrent polls must not claim the same appointment. Reset reminder timestamps in the reschedule write.
 - Test reminder claiming against the actual SQL migrations in an isolated in-memory database, so regression checks never claim live patient appointments.
+- WhatsApp duplicate-booking checks reuse the shared upcoming selector with a pending/confirmed allow-list; both phone lookup APIs share latest-patient retrieval to preserve bot compatibility.

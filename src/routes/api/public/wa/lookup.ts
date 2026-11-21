@@ -1,5 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { admin, jsonError, jsonOk, normalizePhone, rateLimit, requireSharedSecret } from "@/lib/wa.server";
+import { admin, findLatestPatient, jsonError, jsonOk, normalizePhone, rateLimit, requireSharedSecret } from "@/lib/wa.server";
+import { z } from "zod";
+
+const lookupSchema = z.object({
+  phone: z.string().trim().min(7).max(20),
+  scope: z.enum(["upcoming", "all"]).default("upcoming"),
+});
 
 async function handleLookup({ request }: { request: Request }) {
   const unauthorized = requireSharedSecret(request);
@@ -8,26 +14,21 @@ async function handleLookup({ request }: { request: Request }) {
     return jsonError("rate_limited", "Too many requests.", 429);
   }
 
-  let phoneRaw: string | null = null;
-  let scope = "upcoming";
+  let body: unknown;
   if (request.method === "POST") {
     try {
-      const body = (await request.json()) as { phone?: string; scope?: string };
-      phoneRaw = body.phone ?? null;
-      scope = body.scope ?? scope;
+      body = await request.json();
     } catch {
       return jsonError("invalid_input", "Body must be valid JSON.", 400);
     }
   } else {
     const url = new URL(request.url);
-    phoneRaw = url.searchParams.get("phone");
-    scope = url.searchParams.get("scope") ?? scope;
+    body = { phone: url.searchParams.get("phone"), scope: url.searchParams.get("scope") ?? "upcoming" };
   }
 
-  if (!phoneRaw) return jsonError("invalid_input", "`phone` is required.", 400);
-  if (scope !== "upcoming" && scope !== "all") {
-    return jsonError("invalid_input", "`scope` must be `upcoming` or `all`.", 400);
-  }
+  const parsed = lookupSchema.safeParse(body);
+  if (!parsed.success) return jsonError("invalid_input", "Validation failed.", 400, parsed.error.flatten());
+  const { phone: phoneRaw, scope } = parsed.data;
 
   const phone_e164 = normalizePhone(phoneRaw);
   if (!phone_e164) return jsonError("invalid_input", "Could not parse `phone`.", 400);
@@ -51,7 +52,9 @@ async function handleLookup({ request }: { request: Request }) {
     .limit(50);
   if (error) return jsonError("db_error", error.message, 500);
 
-  return jsonOk({ phone_e164, scope, count: data?.length ?? 0, appointments: data ?? [] });
+  const { patient, error: patientError } = await findLatestPatient(phone_e164);
+  if (patientError) return jsonError("db_error", patientError.message, 500);
+  return jsonOk({ phone_e164, scope, count: data?.length ?? 0, appointments: data ?? [], patient });
 }
 
 export const Route = createFileRoute("/api/public/wa/lookup")({

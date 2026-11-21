@@ -1,3 +1,8 @@
+# Duplicate booking and returning patients
+- [x] Guard WhatsApp bookings unless allow_additional is true.
+- [x] Add latest patient details to phone lookups without changing existing fields.
+- [x] Test booking decisions and lookup compatibility; document responses.
+
 # Appointment reminders
 - [x] Add reminder timestamps and atomic database claiming.
 - [x] Add authenticated due/result endpoints and reset timestamps on reschedule.

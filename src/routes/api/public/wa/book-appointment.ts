@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 import {
   admin,
+  findUpcomingAppointments,
   isClosed,
   jsonError,
   jsonOk,
@@ -27,6 +28,7 @@ const schema = z.object({
   notes: z.string().trim().max(1000).optional().nullable(),
   google_event_id: z.string().trim().max(200).optional().nullable(),
   email: emailSchema,
+  allow_additional: z.boolean().optional(),
 });
 
 function timingSafeEqual(a: string, b: string): boolean {
@@ -76,6 +78,29 @@ export const Route = createFileRoute("/api/public/wa/book-appointment")({
         }
 
         const supabase = admin();
+
+        if (input.allow_additional !== true) {
+          const { appointments, error: lookupError } = await findUpcomingAppointments(phone_e164);
+          if (lookupError) {
+            console.error("Failed to check existing patient bookings:", lookupError);
+            return jsonError("db_error", "Something went wrong while booking. Please try again or contact the clinic.", 500);
+          }
+          const existing = appointments.find((appointment) =>
+            appointment.status === "pending" || appointment.status === "confirmed",
+          );
+          if (existing) {
+            return Response.json({
+              ok: false,
+              error: "already_has_upcoming",
+              appointment: {
+                name: existing.name,
+                doctor: existing.doctor,
+                date: existing.appointment_date,
+                time: existing.appointment_time,
+              },
+            }, { status: 409 });
+          }
+        }
 
         // Re-run the availability check right before inserting.
         const { data: clash, error: clashError } = await supabase

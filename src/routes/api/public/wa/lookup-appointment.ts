@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 import {
   findUpcomingAppointments,
+  findLatestPatient,
   jsonError,
   jsonOk,
   normalizePhone,
@@ -40,8 +41,11 @@ export const Route = createFileRoute("/api/public/wa/lookup-appointment")({
 
         const { appointments, error } = await findUpcomingAppointments(phoneE164);
         if (error) return jsonError("db_error", error.message, 500);
+        const { patient, error: patientError } = await findLatestPatient(phoneE164);
+        if (patientError) return jsonError("db_error", patientError.message, 500);
 
         return jsonOk({
+          patient,
           appointments: appointments.map((appointment) => ({
             id: appointment.id,
             doctor: appointment.doctor,

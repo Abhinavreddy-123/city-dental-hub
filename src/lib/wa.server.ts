@@ -114,6 +114,18 @@ export async function findUpcomingAppointments(phoneE164: string, appointmentId?
   return { appointments, error: null };
 }
 
+/** Returning-patient details come from the latest booking, regardless of its status. */
+export async function findLatestPatient(phoneE164: string) {
+  const { data, error } = await admin()
+    .from("appointments")
+    .select("name, email")
+    .eq("phone_e164", phoneE164)
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  return { patient: data ? { name: data.name, email: data.email } : null, error };
+}
+
 /** In-memory best-effort limiter per worker instance. */
 const hits = new Map<string, number[]>();
 export function rateLimit(key: string, limit: number, windowMs: number): boolean {
