@@ -2,7 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 import {
   admin,
-  findUpcomingAppointments,
+  readAppointmentId,
+  selectTargetAppointment,
   jsonError,
   jsonOk,
   normalizePhone,
@@ -12,14 +13,6 @@ import {
 
 const cancelAppointmentSchema = z.object({
   phone: z.string().trim().min(7).max(20),
-  appointmentId: z.preprocess(
-    (val) => {
-      if (val === undefined || val === null || val === "") return undefined;
-      const parsed = z.string().uuid().safeParse(val);
-      return parsed.success ? parsed.data : undefined;
-    },
-    z.string().uuid().optional(),
-  ),
 });
 
 export const Route = createFileRoute("/api/public/wa/cancel-appointment")({
@@ -49,26 +42,9 @@ export const Route = createFileRoute("/api/public/wa/cancel-appointment")({
           return jsonError("rate_limited", "Too many cancellation attempts. Try again later.", 429);
         }
 
-        const { appointments, error: findError } = await findUpcomingAppointments(
-          phoneE164,
-          input.appointmentId,
-        );
-        if (findError) return jsonError("db_error", findError.message, 500);
-
-        if (appointments.length === 0) {
-          return jsonError("not_found", "No upcoming appointment found for that phone number.", 404);
-        }
-
-        if (!input.appointmentId && appointments.length > 1) {
-          return jsonError(
-            "ambiguous_appointment",
-            "Multiple upcoming appointments found. Please provide `appointmentId`.",
-            409,
-            { appointments },
-          );
-        }
-
-        const appointment = appointments[0];
+        const target = await selectTargetAppointment(phoneE164, readAppointmentId(body));
+        if (target.response) return target.response;
+        const appointment = target.appointment;
         const { data, error } = await admin()
           .from("appointments")
           .update({ status: "cancelled", change_source: "patient" })

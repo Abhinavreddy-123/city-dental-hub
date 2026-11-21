@@ -134,6 +134,54 @@ export async function findLatestPatient(phoneE164: string) {
   return { patient: { name, email: latest?.email ?? null }, error: null };
 }
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/**
+ * Reads the requested appointment id from `appointmentId` or `appointment_id`.
+ * Missing, null or blank = not provided. Any other value must match exactly (non-UUID matches nothing).
+ */
+export function readAppointmentId(body: unknown): string | undefined {
+  if (!body || typeof body !== "object") return undefined;
+  const record = body as Record<string, unknown>;
+  for (const key of ["appointmentId", "appointment_id"]) {
+    const value = record[key];
+    if (value === undefined || value === null) continue;
+    const text = String(value).trim();
+    if (text) return text;
+  }
+  return undefined;
+}
+
+/**
+ * Picks the single appointment cancel/reschedule may act on, or returns the error response.
+ * A supplied id must belong to this phone and be active + future; it never falls back to another row.
+ */
+export async function selectTargetAppointment(phoneE164: string, appointmentId: string | undefined) {
+  const notFoundById = () =>
+    jsonError("not_found", "No upcoming appointment with that id for this phone number.", 404);
+  if (appointmentId && !UUID_RE.test(appointmentId)) return { response: notFoundById() };
+  const { appointments, error } = await findUpcomingAppointments(phoneE164, appointmentId);
+  if (error) return { response: jsonError("db_error", error.message, 500) };
+  if (appointments.length === 0) {
+    return {
+      response: appointmentId
+        ? notFoundById()
+        : jsonError("not_found", "No upcoming appointment found for that phone number.", 404),
+    };
+  }
+  if (!appointmentId && appointments.length > 1) {
+    return {
+      response: jsonError(
+        "ambiguous_appointment",
+        "Multiple upcoming appointments found. Please provide `appointmentId`.",
+        409,
+        { appointments: appointments.map((a) => ({ ...a, patient_name: a.name })) },
+      ),
+    };
+  }
+  return { appointment: appointments[0]! };
+}
+
 /** In-memory best-effort limiter per worker instance. */
 const hits = new Map<string, number[]>();
 export function rateLimit(key: string, limit: number, windowMs: number): boolean {

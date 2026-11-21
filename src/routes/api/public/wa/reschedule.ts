@@ -2,7 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 import {
   admin,
-  findUpcomingAppointments,
+  readAppointmentId,
+  selectTargetAppointment,
   isClosed,
   jsonError,
   jsonOk,
@@ -16,14 +17,6 @@ const rescheduleSchema = z.object({
   phone: z.string().trim().min(7).max(20),
   newDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   newTime: z.string().trim().min(4).max(10),
-  appointmentId: z.preprocess(
-    (val) => {
-      if (val === undefined || val === null || val === "") return undefined;
-      const parsed = z.string().uuid().safeParse(val);
-      return parsed.success ? parsed.data : undefined;
-    },
-    z.string().uuid().optional(),
-  ),
 });
 
 export const Route = createFileRoute("/api/public/wa/reschedule")({
@@ -62,27 +55,9 @@ export const Route = createFileRoute("/api/public/wa/reschedule")({
 
         const supabase = admin();
 
-        // Look up the patient's upcoming active appointment(s).
-        const { appointments, error: findError } = await findUpcomingAppointments(
-          phone_e164,
-          input.appointmentId,
-        );
-        if (findError) return jsonError("db_error", findError.message, 500);
-
-        if (appointments.length === 0) {
-          return jsonError("not_found", "No upcoming appointment found for that phone number.", 404);
-        }
-
-        if (!input.appointmentId && appointments.length > 1) {
-          return jsonError(
-            "ambiguous_appointment",
-            "Multiple upcoming appointments found. Please provide `appointmentId`.",
-            409,
-            { appointments },
-          );
-        }
-
-        const appointment = appointments[0];
+        const target = await selectTargetAppointment(phone_e164, readAppointmentId(body));
+        if (target.response) return target.response;
+        const appointment = target.appointment;
 
         // Prevent rescheduling into the exact same slot.
         if (appointment.appointment_date === input.newDate && appointment.appointment_time === input.newTime) {

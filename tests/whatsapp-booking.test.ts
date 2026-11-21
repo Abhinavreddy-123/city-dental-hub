@@ -9,6 +9,7 @@ type Appointment = {
 };
 let rows: Appointment[] = [];
 let inserts = 0;
+let updated: string[] = [];
 let failLookup = false;
 const clockStart = Date.now();
 let clockStep = 0;
@@ -25,6 +26,8 @@ class Query {
   order(column: keyof Appointment, options: { ascending: boolean }) { this.sort.push({ column, ...options }); return this; }
   limit(cap: number) { this.cap = cap; return this; }
   insert(payload: Record<string, unknown>) { this.payload = payload; return this; }
+  private changes: Record<string, unknown> | null = null;
+  update(changes: Record<string, unknown>) { this.changes = changes; return this; }
   private result() {
     const data = rows.filter((row) => this.filters.every((filter) => filter(row))).sort((a, b) => {
       for (const { column, ascending } of this.sort) {
@@ -38,6 +41,12 @@ class Query {
   then(resolve: (value: ReturnType<Query["result"]>) => unknown) { return Promise.resolve(this.result()).then(resolve); }
   async maybeSingle() { const result = this.result(); return { data: result.data[0] ?? null, error: result.error }; }
   async single() {
+    if (this.changes) {
+      const matched = rows.filter((row) => this.filters.every((filter) => filter(row)));
+      for (const row of matched) Object.assign(row, this.changes);
+      updated.push(...matched.map((row) => row.id));
+      return { data: matched[0] ?? null, error: matched.length === 1 ? null : { message: "no row" } };
+    }
     if (!this.payload) throw new Error("Expected booking insert");
     inserts++;
     const appointment = { ...fixture(), ...this.payload, id: "new-booking" };
@@ -50,6 +59,8 @@ mock.module("@supabase/supabase-js", () => ({ createClient: () => ({ from: () =>
 const { Route: bookRoute } = await import("../src/routes/api/public/wa/book-appointment");
 const { Route: lookupRoute } = await import("../src/routes/api/public/wa/lookup-appointment");
 const { Route: legacyLookupRoute } = await import("../src/routes/api/public/wa/lookup");
+const { Route: cancelRoute } = await import("../src/routes/api/public/wa/cancel-appointment");
+const { Route: rescheduleRoute } = await import("../src/routes/api/public/wa/reschedule");
 const { DOCTORS, SERVICES, TIME_SLOTS } = await import("../src/lib/site");
 const doctor = DOCTORS[0]?.name;
 const service = SERVICES[0]?.title;
@@ -77,7 +88,7 @@ async function call(route: Endpoint, body: unknown, key = "isolated-test-key") {
 const booking = { name: "New Patient", phone_number: "9000000001", service, doctor, date: "2099-11-23", time_slot: time, email: "" };
 
 beforeEach(() => {
-  rows = []; inserts = 0; failLookup = false;
+  rows = []; inserts = 0; updated = []; failLookup = false;
   process.env["N8N_API_KEY"] = "isolated-test-key";
   process.env["SUPABASE_URL"] = "https://isolated.example.test";
   process.env["SUPABASE_SERVICE_ROLE_KEY"] = "isolated-not-a-real-key";
@@ -220,4 +231,71 @@ test("patient: latest appointment under that name has no email gives null", asyn
 
 test("patient: no history gives null", async () => {
   expect(await patientOf()).toBeNull();
+});
+
+const idA = "00000000-0000-4000-8000-00000000000a";
+const idB = "00000000-0000-4000-8000-00000000000b";
+const twoUpcoming = () => [
+  fixture({ id: idA, name: "Ravi", appointment_date: "2099-11-21" }),
+  fixture({ id: idB, name: "Sita", appointment_date: "2099-11-24", appointment_time: "05:30 PM" }),
+];
+
+test("cancel by appointmentId with two appointments cancels only that one", async () => {
+  rows = twoUpcoming();
+  const result = await call(cancelRoute, { phone: "9000000001", appointmentId: idB });
+  expect(result.status).toBe(200);
+  expect(result.body.appointment.id).toBe(idB);
+  expect(updated).toEqual([idB]);
+  expect(rows.find((r) => r.id === idA)?.status).toBe("pending");
+});
+
+test("cancel accepts appointment_id field name", async () => {
+  rows = twoUpcoming();
+  const result = await call(cancelRoute, { phone: "9000000001", appointment_id: idA });
+  expect(result.body.appointment.id).toBe(idA);
+  expect(updated).toEqual([idA]);
+});
+
+test("reschedule by appointmentId with two appointments moves only that one", async () => {
+  rows = twoUpcoming();
+  const result = await call(rescheduleRoute, { phone: "9000000001", appointmentId: idB, newDate: "2099-11-25", newTime: time });
+  expect(result.status).toBe(200);
+  expect(result.body.appointment.id).toBe(idB);
+  expect(updated).toEqual([idB]);
+});
+
+test("id belonging to another phone returns not_found and changes nothing", async () => {
+  for (const route of [cancelRoute, rescheduleRoute]) {
+    rows = [fixture({ id: idA }), fixture({ id: idB, phone_e164: "+919000000002" })];
+    const result = await call(route, { phone: "9000000001", appointmentId: idB, newDate: "2099-11-25", newTime: time });
+    expect(result.status).toBe(404);
+    expect(result.body.error.code).toBe("not_found");
+    expect(updated).toEqual([]);
+  }
+});
+
+test("cancelled or junk id returns not_found and never falls back", async () => {
+  rows = [fixture({ id: idA }), fixture({ id: idB, status: "cancelled" })];
+  expect((await call(cancelRoute, { phone: "9000000001", appointmentId: idB })).status).toBe(404);
+  expect((await call(cancelRoute, { phone: "9000000001", appointmentId: "0" })).status).toBe(404);
+  expect(updated).toEqual([]);
+});
+
+test("empty-string id is treated as not provided", async () => {
+  rows = [fixture({ id: idA })];
+  const result = await call(cancelRoute, { phone: "9000000001", appointmentId: "", appointment_id: "" });
+  expect(result.status).toBe(200);
+  expect(updated).toEqual([idA]);
+});
+
+test("no id with two appointments returns ambiguous list", async () => {
+  for (const route of [cancelRoute, rescheduleRoute]) {
+    rows = twoUpcoming();
+    const result = await call(route, { phone: "9000000001", newDate: "2099-11-25", newTime: time });
+    expect(result.status).toBe(409);
+    expect(result.body.error.code).toBe("ambiguous_appointment");
+    expect(result.body.error.details.appointments.map((a: { id: string; patient_name: string }) => [a.id, a.patient_name]))
+      .toEqual([[idA, "Ravi"], [idB, "Sita"]]);
+    expect(updated).toEqual([]);
+  }
 });
