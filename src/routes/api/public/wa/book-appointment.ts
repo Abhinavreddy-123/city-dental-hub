@@ -127,6 +127,7 @@ export const Route = createFileRoute("/api/public/wa/book-appointment")({
             google_event_id: input.google_event_id ?? null,
             email: input.email ?? null,
             change_source: "patient",
+            source: "whatsapp_bot",
           })
           .select(
             "id, name, phone, phone_e164, service, doctor, appointment_date, appointment_time, notes, status, google_event_id, email, created_at",

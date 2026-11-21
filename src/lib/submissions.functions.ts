@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
+import { queueStaffAlert } from "./staff-alert.server";
 
 function anonClient() {
   return createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_PUBLISHABLE_KEY!, {
@@ -25,9 +26,32 @@ export const submitAppointment = createServerFn({ method: "POST" })
     const SLOT_TAKEN =
       "Sorry, this slot was just booked by another patient — please choose a different time or doctor";
 
+    let savedId = "";
     const insertForDoctor = async (doctor: string) => {
       const supabase = anonClient();
-      return supabase.from("appointments").insert({ ...data, doctor, change_source: "patient" });
+      savedId = crypto.randomUUID();
+      return supabase
+        .from("appointments")
+        .insert({ ...data, id: savedId, doctor, change_source: "patient", source: "website" });
+    };
+    const notifyStaff = (doctor: string) => {
+      try {
+        queueStaffAlert({
+          event: "new_booking",
+          source: "website",
+          appointment_id: savedId,
+          name: data.name,
+          phone: data.phone,
+          email: null,
+          doctor,
+          service: data.service,
+          appointment_date: data.appointment_date,
+          appointment_time: data.appointment_time,
+          notes: data.notes ?? null,
+        });
+      } catch (err) {
+        console.error("Could not queue staff alert:", err);
+      }
     };
 
     if (data.doctor === "Any Available") {
@@ -35,7 +59,10 @@ export const submitAppointment = createServerFn({ method: "POST" })
 
       for (const doctor of fallbackDoctors) {
         const { error } = await insertForDoctor(doctor);
-        if (!error) return { ok: true as const, doctor };
+        if (!error) {
+          notifyStaff(doctor);
+          return { ok: true as const, doctor };
+        }
         if (error.code === "23505" || error.message.includes("uq_appointments_active_slot")) {
           continue;
         }
@@ -65,6 +92,7 @@ export const submitAppointment = createServerFn({ method: "POST" })
       }
       throw new Error(error.message);
     }
+    notifyStaff(data.doctor);
     return { ok: true as const, doctor: data.doctor };
   });
 
