@@ -289,6 +289,8 @@ test("placeholder ids are treated as not provided: one appointment is acted on",
     for (const route of [cancelRoute, rescheduleRoute]) {
       rows = [fixture({ id: idA })];
       updated = [];
+      // Fresh rate-limit window per call, same trick as beforeEach.
+      spyOn(Date, "now").mockReturnValue(clockStart + ++clockStep * 60 * 60_000);
       const result = await call(route, { phone: "9000000001", appointmentId: placeholder, newDate: "2099-11-25", newTime: time });
       expect(result.status).toBe(200);
       expect(result.body.appointment.id).toBe(idA);
@@ -302,6 +304,7 @@ test("placeholder ids are treated as not provided: two appointments give ambiguo
     for (const route of [cancelRoute, rescheduleRoute]) {
       rows = twoUpcoming();
       updated = [];
+      spyOn(Date, "now").mockReturnValue(clockStart + ++clockStep * 60 * 60_000);
       const result = await call(route, { phone: "9000000001", appointment_id: placeholder, newDate: "2099-11-25", newTime: time });
       expect(result.status).toBe(409);
       expect(result.body.error.code).toBe("ambiguous_appointment");
