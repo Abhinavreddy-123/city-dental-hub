@@ -277,8 +277,37 @@ test("id belonging to another phone returns not_found and changes nothing", asyn
 test("cancelled or junk id returns not_found and never falls back", async () => {
   rows = [fixture({ id: idA }), fixture({ id: idB, status: "cancelled" })];
   expect((await call(cancelRoute, { phone: "9000000001", appointmentId: idB })).status).toBe(404);
-  expect((await call(cancelRoute, { phone: "9000000001", appointmentId: "0" })).status).toBe(404);
+  expect((await call(cancelRoute, { phone: "9000000001", appointmentId: "not-a-uuid" })).status).toBe(404);
+  expect((await call(cancelRoute, { phone: "9000000001", appointmentId: "12345" })).status).toBe(404);
   expect(updated).toEqual([]);
+});
+
+const PLACEHOLDERS = ["0", "null", "none", "undefined", "n/a", "na", "-", " N/A ", "NULL"];
+
+test("placeholder ids are treated as not provided: one appointment is acted on", async () => {
+  for (const placeholder of PLACEHOLDERS) {
+    for (const route of [cancelRoute, rescheduleRoute]) {
+      rows = [fixture({ id: idA })];
+      updated = [];
+      const result = await call(route, { phone: "9000000001", appointmentId: placeholder, newDate: "2099-11-25", newTime: time });
+      expect(result.status).toBe(200);
+      expect(result.body.appointment.id).toBe(idA);
+      expect(updated).toEqual([idA]);
+    }
+  }
+});
+
+test("placeholder ids are treated as not provided: two appointments give ambiguous", async () => {
+  for (const placeholder of PLACEHOLDERS) {
+    for (const route of [cancelRoute, rescheduleRoute]) {
+      rows = twoUpcoming();
+      updated = [];
+      const result = await call(route, { phone: "9000000001", appointment_id: placeholder, newDate: "2099-11-25", newTime: time });
+      expect(result.status).toBe(409);
+      expect(result.body.error.code).toBe("ambiguous_appointment");
+      expect(updated).toEqual([]);
+    }
+  }
 });
 
 test("empty-string id is treated as not provided", async () => {

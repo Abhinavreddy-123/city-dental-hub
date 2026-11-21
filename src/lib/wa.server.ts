@@ -140,6 +140,9 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
  * Reads the requested appointment id from `appointmentId` or `appointment_id`.
  * Missing, null or blank = not provided. Any other value must match exactly (non-UUID matches nothing).
  */
+/** Placeholder values bots send when they have no id; treated as "no id provided". */
+const NO_ID_PLACEHOLDERS = new Set(["0", "null", "none", "undefined", "n/a", "na", "-"]);
+
 export function readAppointmentId(body: unknown): string | undefined {
   if (!body || typeof body !== "object") return undefined;
   const record = body as Record<string, unknown>;
@@ -147,7 +150,9 @@ export function readAppointmentId(body: unknown): string | undefined {
     const value = record[key];
     if (value === undefined || value === null) continue;
     const text = String(value).trim();
-    if (text) return text;
+    if (!text) continue;
+    if (NO_ID_PLACEHOLDERS.has(text.toLowerCase())) continue;
+    return text;
   }
   return undefined;
 }
