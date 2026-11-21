@@ -29,6 +29,8 @@ import { Route as ApiPublicWaBookAppointmentRouteImport } from './routes/api/pub
 import { Route as ApiPublicWaCancelAppointmentRouteImport } from './routes/api/public/wa/cancel-appointment'
 import { Route as ApiPublicWaCheckAvailabilityRouteImport } from './routes/api/public/wa/check-availability'
 import { Route as ApiPublicWaDailyDigestRouteImport } from './routes/api/public/wa/daily-digest'
+import { Route as ApiPublicWaFollowupResultRouteImport } from './routes/api/public/wa/followup-result'
+import { Route as ApiPublicWaFollowupsDueRouteImport } from './routes/api/public/wa/followups-due'
 import { Route as ApiPublicWaLookupRouteImport } from './routes/api/public/wa/lookup'
 import { Route as ApiPublicWaLookupAppointmentRouteImport } from './routes/api/public/wa/lookup-appointment'
 import { Route as ApiPublicWaReminderResultRouteImport } from './routes/api/public/wa/reminder-result'
@@ -139,6 +141,17 @@ const ApiPublicWaDailyDigestRoute = ApiPublicWaDailyDigestRouteImport.update({
   path: '/api/public/wa/daily-digest',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicWaFollowupResultRoute =
+  ApiPublicWaFollowupResultRouteImport.update({
+    id: '/api/public/wa/followup-result',
+    path: '/api/public/wa/followup-result',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicWaFollowupsDueRoute = ApiPublicWaFollowupsDueRouteImport.update({
+  id: '/api/public/wa/followups-due',
+  path: '/api/public/wa/followups-due',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicWaLookupRoute = ApiPublicWaLookupRouteImport.update({
   id: '/api/public/wa/lookup',
   path: '/api/public/wa/lookup',
@@ -197,6 +210,8 @@ export interface FileRoutesByFullPath {
   '/api/public/wa/cancel-appointment': typeof ApiPublicWaCancelAppointmentRoute
   '/api/public/wa/check-availability': typeof ApiPublicWaCheckAvailabilityRoute
   '/api/public/wa/daily-digest': typeof ApiPublicWaDailyDigestRoute
+  '/api/public/wa/followup-result': typeof ApiPublicWaFollowupResultRoute
+  '/api/public/wa/followups-due': typeof ApiPublicWaFollowupsDueRoute
   '/api/public/wa/lookup': typeof ApiPublicWaLookupRoute
   '/api/public/wa/lookup-appointment': typeof ApiPublicWaLookupAppointmentRoute
   '/api/public/wa/reminder-result': typeof ApiPublicWaReminderResultRoute
@@ -225,6 +240,8 @@ export interface FileRoutesByTo {
   '/api/public/wa/cancel-appointment': typeof ApiPublicWaCancelAppointmentRoute
   '/api/public/wa/check-availability': typeof ApiPublicWaCheckAvailabilityRoute
   '/api/public/wa/daily-digest': typeof ApiPublicWaDailyDigestRoute
+  '/api/public/wa/followup-result': typeof ApiPublicWaFollowupResultRoute
+  '/api/public/wa/followups-due': typeof ApiPublicWaFollowupsDueRoute
   '/api/public/wa/lookup': typeof ApiPublicWaLookupRoute
   '/api/public/wa/lookup-appointment': typeof ApiPublicWaLookupAppointmentRoute
   '/api/public/wa/reminder-result': typeof ApiPublicWaReminderResultRoute
@@ -255,6 +272,8 @@ export interface FileRoutesById {
   '/api/public/wa/cancel-appointment': typeof ApiPublicWaCancelAppointmentRoute
   '/api/public/wa/check-availability': typeof ApiPublicWaCheckAvailabilityRoute
   '/api/public/wa/daily-digest': typeof ApiPublicWaDailyDigestRoute
+  '/api/public/wa/followup-result': typeof ApiPublicWaFollowupResultRoute
+  '/api/public/wa/followups-due': typeof ApiPublicWaFollowupsDueRoute
   '/api/public/wa/lookup': typeof ApiPublicWaLookupRoute
   '/api/public/wa/lookup-appointment': typeof ApiPublicWaLookupAppointmentRoute
   '/api/public/wa/reminder-result': typeof ApiPublicWaReminderResultRoute
@@ -285,6 +304,8 @@ export interface FileRouteTypes {
     | '/api/public/wa/cancel-appointment'
     | '/api/public/wa/check-availability'
     | '/api/public/wa/daily-digest'
+    | '/api/public/wa/followup-result'
+    | '/api/public/wa/followups-due'
     | '/api/public/wa/lookup'
     | '/api/public/wa/lookup-appointment'
     | '/api/public/wa/reminder-result'
@@ -313,6 +334,8 @@ export interface FileRouteTypes {
     | '/api/public/wa/cancel-appointment'
     | '/api/public/wa/check-availability'
     | '/api/public/wa/daily-digest'
+    | '/api/public/wa/followup-result'
+    | '/api/public/wa/followups-due'
     | '/api/public/wa/lookup'
     | '/api/public/wa/lookup-appointment'
     | '/api/public/wa/reminder-result'
@@ -342,6 +365,8 @@ export interface FileRouteTypes {
     | '/api/public/wa/cancel-appointment'
     | '/api/public/wa/check-availability'
     | '/api/public/wa/daily-digest'
+    | '/api/public/wa/followup-result'
+    | '/api/public/wa/followups-due'
     | '/api/public/wa/lookup'
     | '/api/public/wa/lookup-appointment'
     | '/api/public/wa/reminder-result'
@@ -371,6 +396,8 @@ export interface RootRouteChildren {
   ApiPublicWaCancelAppointmentRoute: typeof ApiPublicWaCancelAppointmentRoute
   ApiPublicWaCheckAvailabilityRoute: typeof ApiPublicWaCheckAvailabilityRoute
   ApiPublicWaDailyDigestRoute: typeof ApiPublicWaDailyDigestRoute
+  ApiPublicWaFollowupResultRoute: typeof ApiPublicWaFollowupResultRoute
+  ApiPublicWaFollowupsDueRoute: typeof ApiPublicWaFollowupsDueRoute
   ApiPublicWaLookupRoute: typeof ApiPublicWaLookupRoute
   ApiPublicWaLookupAppointmentRoute: typeof ApiPublicWaLookupAppointmentRoute
   ApiPublicWaReminderResultRoute: typeof ApiPublicWaReminderResultRoute
@@ -522,6 +549,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicWaDailyDigestRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/wa/followup-result': {
+      id: '/api/public/wa/followup-result'
+      path: '/api/public/wa/followup-result'
+      fullPath: '/api/public/wa/followup-result'
+      preLoaderRoute: typeof ApiPublicWaFollowupResultRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/wa/followups-due': {
+      id: '/api/public/wa/followups-due'
+      path: '/api/public/wa/followups-due'
+      fullPath: '/api/public/wa/followups-due'
+      preLoaderRoute: typeof ApiPublicWaFollowupsDueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/wa/lookup': {
       id: '/api/public/wa/lookup'
       path: '/api/public/wa/lookup'
@@ -605,6 +646,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicWaCancelAppointmentRoute: ApiPublicWaCancelAppointmentRoute,
   ApiPublicWaCheckAvailabilityRoute: ApiPublicWaCheckAvailabilityRoute,
   ApiPublicWaDailyDigestRoute: ApiPublicWaDailyDigestRoute,
+  ApiPublicWaFollowupResultRoute: ApiPublicWaFollowupResultRoute,
+  ApiPublicWaFollowupsDueRoute: ApiPublicWaFollowupsDueRoute,
   ApiPublicWaLookupRoute: ApiPublicWaLookupRoute,
   ApiPublicWaLookupAppointmentRoute: ApiPublicWaLookupAppointmentRoute,
   ApiPublicWaReminderResultRoute: ApiPublicWaReminderResultRoute,

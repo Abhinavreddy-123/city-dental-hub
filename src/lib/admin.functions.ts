@@ -49,7 +49,7 @@ export const updateAppointmentStatus = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) =>
     z.object({
       id: z.string().uuid(),
-      status: z.enum(["pending", "confirmed", "completed", "cancelled"]),
+      status: z.enum(["pending", "confirmed", "completed", "cancelled", "no_show"]),
     }).parse(d),
   )
   .handler(async ({ data, context }) => {
@@ -118,6 +118,20 @@ export const deleteReview = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     await ensureAdmin(context);
     const { error } = await context.supabase.from("reviews").delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true as const };
+  });
+/** Undo a completed/no-show mark: back to confirmed, release any follow-up claim. */
+export const undoAppointmentOutcome = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
+  .handler(async ({ data, context }) => {
+    await ensureAdmin(context);
+    const { error } = await context.supabase
+      .from("appointments")
+      .update({ status: "confirmed", followup_claimed_at: null, change_source: "staff" })
+      .eq("id", data.id)
+      .in("status", ["completed", "no_show"]);
     if (error) throw new Error(error.message);
     return { ok: true as const };
   });

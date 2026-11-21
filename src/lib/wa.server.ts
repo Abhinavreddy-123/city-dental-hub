@@ -93,8 +93,7 @@ export async function findUpcomingAppointments(phoneE164: string, appointmentId?
     )
     .eq("phone_e164", phoneE164)
     .gte("appointment_date", today)
-    .neq("status", "cancelled")
-    .neq("status", "completed");
+    .in("status", ["pending", "confirmed"]);
 
   if (appointmentId) query = query.eq("id", appointmentId);
 

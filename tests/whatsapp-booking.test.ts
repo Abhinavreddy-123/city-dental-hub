@@ -22,6 +22,7 @@ class Query {
   select(_columns: string) { return this; }
   eq(column: keyof Appointment, value: string) { this.filters.push((row) => row[column] === value); return this; }
   neq(column: keyof Appointment, value: string) { this.filters.push((row) => row[column] !== value); return this; }
+  in(column: keyof Appointment, values: string[]) { this.filters.push((row) => values.includes(row[column] as string)); return this; }
   gte(column: keyof Appointment, value: string) { this.filters.push((row) => String(row[column]) >= value); return this; }
   order(column: keyof Appointment, options: { ascending: boolean }) { this.sort.push({ column, ...options }); return this; }
   limit(cap: number) { this.cap = cap; return this; }
@@ -135,6 +136,13 @@ test("allow_additional true inserts despite an existing active appointment", asy
 
 test("completed and past appointments do not block insertion", async () => {
   rows = [fixture({ status: "completed" }), fixture({ appointment_date: "2000-01-01" })];
+  const result = await call(bookRoute, booking);
+  expect(result.status).toBe(201);
+  expect(inserts).toBe(1);
+});
+
+test("future no_show appointment does not block insertion", async () => {
+  rows = [fixture({ status: "no_show" })];
   const result = await call(bookRoute, booking);
   expect(result.status).toBe(201);
   expect(inserts).toBe(1);

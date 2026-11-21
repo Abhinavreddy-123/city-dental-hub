@@ -14,3 +14,4 @@
 - Claim one-hour reminders through the service-role-only database RPC with UPDATE RETURNING and row locks; concurrent polls must not claim the same appointment. Reset reminder timestamps in the reschedule write.
 - Test reminder claiming against the actual SQL migrations in an isolated in-memory database, so regression checks never claim live patient appointments.
 - WhatsApp duplicate-booking checks reuse the shared upcoming selector with a pending/confirmed allow-list; both phone lookup APIs share latest-patient retrieval to preserve bot compatibility.
+- Claim no-show follow-ups only through the service-role `claim_due_followups` RPC (shares conditions with `followup_candidates`), so the read-only preview and the claiming query can never drift.

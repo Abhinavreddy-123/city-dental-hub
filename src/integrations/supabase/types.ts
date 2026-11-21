@@ -66,6 +66,9 @@ export type Database = {
           created_at: string
           doctor: string
           email: string | null
+          followup_attempts: number
+          followup_claimed_at: string | null
+          followup_sent_at: string | null
           google_event_id: string | null
           id: string
           name: string
@@ -85,6 +88,9 @@ export type Database = {
           created_at?: string
           doctor: string
           email?: string | null
+          followup_attempts?: number
+          followup_claimed_at?: string | null
+          followup_sent_at?: string | null
           google_event_id?: string | null
           id?: string
           name: string
@@ -104,6 +110,9 @@ export type Database = {
           created_at?: string
           doctor?: string
           email?: string | null
+          followup_attempts?: number
+          followup_claimed_at?: string | null
+          followup_sent_at?: string | null
           google_event_id?: string | null
           id?: string
           name?: string
@@ -291,6 +300,50 @@ export type Database = {
           phone_e164: string
         }[]
       }
+      claim_due_followups: {
+        Args: { max_rows?: number }
+        Returns: {
+          appointment_date: string
+          appointment_id: string
+          appointment_time: string
+          date_label: string
+          doctor: string
+          patient_name: string
+          phone: string
+          service: string
+        }[]
+      }
+      followup_candidates: {
+        Args: { p_now?: string }
+        Returns: {
+          appointment_date: string
+          appointment_time: string
+          change_source: string
+          created_at: string
+          doctor: string
+          email: string | null
+          followup_attempts: number
+          followup_claimed_at: string | null
+          followup_sent_at: string | null
+          google_event_id: string | null
+          id: string
+          name: string
+          notes: string | null
+          phone: string
+          phone_e164: string | null
+          reminder_1h_claimed_at: string | null
+          reminder_1h_sent_at: string | null
+          service: string
+          source: string | null
+          status: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "appointments"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -306,6 +359,14 @@ export type Database = {
           id: string
           reminder_1h_claimed_at: string
           reminder_1h_sent_at: string
+        }[]
+      }
+      record_followup_result: {
+        Args: { p_id: string; p_success: boolean }
+        Returns: {
+          followup_attempts: number
+          followup_sent_at: string
+          id: string
         }[]
       }
     }

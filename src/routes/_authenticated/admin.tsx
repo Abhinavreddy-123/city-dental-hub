@@ -23,6 +23,7 @@ import {
   deleteContact,
   approveReview,
   deleteReview,
+  undoAppointmentOutcome,
 } from "@/lib/admin.functions";
 
 export const Route = createFileRoute("/_authenticated/admin")({
@@ -38,6 +39,16 @@ export const Route = createFileRoute("/_authenticated/admin")({
   }),
   component: Admin,
 });
+
+/** True once the appointment's start time (IST) has passed. */
+function hasStarted(a: { appointment_date: string; appointment_time: string }) {
+  const m = /^(\d{1,2}):(\d{2})\s*(AM|PM)$/i.exec(a.appointment_time ?? "");
+  if (!m) return false;
+  let h = Number(m[1]) % 12;
+  if (m[3]!.toUpperCase() === "PM") h += 12;
+  const start = new Date(`${a.appointment_date}T${String(h).padStart(2, "0")}:${m[2]}:00+05:30`);
+  return start.getTime() <= Date.now();
+}
 
 function toCsv(rows: any[]) {
   if (!rows.length) return "";
@@ -80,6 +91,8 @@ function Admin() {
   const invalidate = () => qc.invalidateQueries({ queryKey: ["admin-overview"] });
 
   const mUpdStatus = useMutation({ mutationFn: (v: any) => updStatus({ data: v }), onSuccess: () => { invalidate(); toast.success("Updated"); }, onError: (e: any) => toast.error(e.message) });
+  const undoOutcome = useServerFn(undoAppointmentOutcome);
+  const mUndo = useMutation({ mutationFn: (v: { id: string }) => undoOutcome({ data: v }), onSuccess: () => { invalidate(); toast.success("Reverted to confirmed"); }, onError: (e: any) => toast.error(e.message) });
   const mDelAppt = useMutation({ mutationFn: (v: any) => delAppt({ data: v }), onSuccess: () => { invalidate(); toast.success("Deleted"); }, onError: (e: any) => toast.error(e.message) });
   const mResContact = useMutation({ mutationFn: (v: any) => resContact({ data: v }), onSuccess: () => { invalidate(); toast.success("Updated"); }, onError: (e: any) => toast.error(e.message) });
   const mDelContact = useMutation({ mutationFn: (v: any) => delContact({ data: v }), onSuccess: () => { invalidate(); toast.success("Deleted"); }, onError: (e: any) => toast.error(e.message) });
@@ -219,11 +232,24 @@ function Admin() {
                               <SelectItem value="pending">Pending</SelectItem>
                               <SelectItem value="confirmed">Confirmed</SelectItem>
                               <SelectItem value="completed">Completed</SelectItem>
+                              <SelectItem value="no_show">No-show</SelectItem>
                               <SelectItem value="cancelled">Cancelled</SelectItem>
                             </SelectContent>
                           </Select>
                         </td>
-                        <td className="p-2">
+                        <td className="p-2 space-x-1 whitespace-nowrap">
+                          {(a.status === "completed" || a.status === "no_show") && (
+                            <>
+                              <Badge variant={a.status === "no_show" ? "destructive" : "secondary"}>{a.status === "no_show" ? "No-show" : "Completed"}</Badge>
+                              <Button size="sm" variant="link" className="h-auto p-0 text-xs" onClick={() => mUndo.mutate({ id: a.id })}>Undo</Button>
+                            </>
+                          )}
+                          {hasStarted(a) && (a.status === "pending" || a.status === "confirmed") && (
+                            <>
+                              <Button size="sm" variant="outline" onClick={() => mUpdStatus.mutate({ id: a.id, status: "completed" })}>Completed</Button>
+                              <Button size="sm" variant="outline" onClick={() => mUpdStatus.mutate({ id: a.id, status: "no_show" })}>No-show</Button>
+                            </>
+                          )}
                           <Button size="sm" variant="ghost" onClick={() => { if (confirm("Delete this appointment?")) mDelAppt.mutate({ id: a.id }); }}>
                             <Trash2 className="h-4 w-4 text-destructive" />
                           </Button>
