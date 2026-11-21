@@ -169,8 +169,8 @@ test("lookup adds latest patient from any status without changing appointment ke
   rows = [fixture(), fixture({ id: "latest", status: "cancelled", name: "Latest Patient", email: null, created_at: "2026-11-21T00:00:00Z" })];
   const result = await call(lookupRoute, { phone: "9000000001" });
   expect(result.status).toBe(200);
-  expect(result.body).toEqual({ ok: true, patient: { name: "Latest Patient", email: null }, appointments: [{
-    id: "existing", doctor, service, appointment_date: "2099-11-21", appointment_time: "01:30 PM",
+  expect(result.body).toEqual({ ok: true, patient: { name: "Returning Patient", email: "patient@example.test" }, appointments: [{
+    id: "existing", doctor, service, appointment_date: "2099-11-21", appointment_time: "01:30 PM", patient_name: "Returning Patient",
   }] });
   expect(inserts).toBe(0);
 });
@@ -185,4 +185,39 @@ test("legacy bot lookup preserves its existing fields and adds patient", async (
     ok: true, phone_e164: "+919000000001", scope: "upcoming", count: 0, appointments: [],
     patient: { name: "Returning Patient", email: "patient@example.test" },
   });
+});
+const patientOf = async () => (await call(lookupRoute, { phone: "9000000001" })).body.patient;
+
+test("patient: only one name", async () => {
+  rows = [fixture({ id: "a", created_at: "2026-01-01" }), fixture({ id: "b", created_at: "2026-02-01", email: "new@example.test" })];
+  expect(await patientOf()).toEqual({ name: "Returning Patient", email: "new@example.test" });
+});
+
+test("patient: first-booked name with more appointments wins over latest family name", async () => {
+  rows = [
+    fixture({ id: "a", name: "Ravi", email: "ravi@example.test", created_at: "2026-01-01" }),
+    fixture({ id: "b", name: "Ravi", email: "ravi2@example.test", created_at: "2026-02-01" }),
+    fixture({ id: "c", name: "Sita", email: "sita@example.test", created_at: "2026-03-01" }),
+  ];
+  expect(await patientOf()).toEqual({ name: "Ravi", email: "ravi2@example.test" });
+});
+
+test("patient: tie goes to earliest-created name", async () => {
+  rows = [
+    fixture({ id: "c", name: "Sita", created_at: "2026-03-01" }),
+    fixture({ id: "a", name: "Ravi", created_at: "2026-01-01" }),
+  ];
+  expect((await patientOf()).name).toBe("Ravi");
+});
+
+test("patient: latest appointment under that name has no email gives null", async () => {
+  rows = [
+    fixture({ id: "a", name: "Ravi", email: "old@example.test", created_at: "2026-01-01" }),
+    fixture({ id: "b", name: "Ravi", email: null, created_at: "2026-02-01" }),
+  ];
+  expect(await patientOf()).toEqual({ name: "Ravi", email: null });
+});
+
+test("patient: no history gives null", async () => {
+  expect(await patientOf()).toBeNull();
 });

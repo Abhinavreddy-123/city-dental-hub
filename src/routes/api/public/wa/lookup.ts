@@ -54,7 +54,7 @@ async function handleLookup({ request }: { request: Request }) {
 
   const { patient, error: patientError } = await findLatestPatient(phone_e164);
   if (patientError) return jsonError("db_error", patientError.message, 500);
-  return jsonOk({ phone_e164, scope, count: data?.length ?? 0, appointments: data ?? [], patient });
+  return jsonOk({ phone_e164, scope, count: data?.length ?? 0, appointments: (data ?? []).map((a) => ({ ...a, patient_name: a.name })), patient });
 }
 
 export const Route = createFileRoute("/api/public/wa/lookup")({

@@ -114,16 +114,24 @@ export async function findUpcomingAppointments(phoneE164: string, appointmentId?
   return { appointments, error: null };
 }
 
-/** Returning-patient details come from the latest booking, regardless of its status. */
+/**
+ * Returning-patient details: name = most frequent name for the phone (any status),
+ * ties go to the earliest-created appointment; email = latest appointment under that name only.
+ */
 export async function findLatestPatient(phoneE164: string) {
   const { data, error } = await admin()
     .from("appointments")
-    .select("name, email")
+    .select("name, email, created_at")
     .eq("phone_e164", phoneE164)
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .maybeSingle();
-  return { patient: data ? { name: data.name, email: data.email } : null, error };
+    .order("created_at", { ascending: true })
+    .limit(1000);
+  if (error || !data || data.length === 0) return { patient: null, error };
+  const counts = new Map<string, number>();
+  for (const row of data) counts.set(row.name, (counts.get(row.name) ?? 0) + 1);
+  let name = data[0]!.name;
+  for (const row of data) if ((counts.get(row.name) ?? 0) > (counts.get(name) ?? 0)) name = row.name;
+  const latest = data.filter((row) => row.name === name).at(-1);
+  return { patient: { name, email: latest?.email ?? null }, error: null };
 }
 
 /** In-memory best-effort limiter per worker instance. */

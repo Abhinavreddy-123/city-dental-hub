@@ -52,6 +52,7 @@ export const Route = createFileRoute("/api/public/wa/lookup-appointment")({
             service: appointment.service,
             appointment_date: appointment.appointment_date,
             appointment_time: appointment.appointment_time,
+            patient_name: appointment.name,
           })),
         });
       },
