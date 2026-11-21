@@ -75,6 +75,7 @@ export type Database = {
           reminder_1h_claimed_at: string | null
           reminder_1h_sent_at: string | null
           service: string
+          source: string | null
           status: string
         }
         Insert: {
@@ -93,6 +94,7 @@ export type Database = {
           reminder_1h_claimed_at?: string | null
           reminder_1h_sent_at?: string | null
           service: string
+          source?: string | null
           status?: string
         }
         Update: {
@@ -111,6 +113,7 @@ export type Database = {
           reminder_1h_claimed_at?: string | null
           reminder_1h_sent_at?: string | null
           service?: string
+          source?: string | null
           status?: string
         }
         Relationships: []
